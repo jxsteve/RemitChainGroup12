@@ -6,9 +6,9 @@ import styles from './Processing.module.css'
 export default function Processing() {
   const navigate = useNavigate()
 
-  // Return to home once the simulated transfer completes.
+  // Advance to the success confirmation once the simulated transfer completes.
   useEffect(() => {
-    const t = setTimeout(() => navigate('/home'), 4000)
+    const t = setTimeout(() => navigate('/success'), 4000)
     return () => clearTimeout(t)
   }, [navigate])
 

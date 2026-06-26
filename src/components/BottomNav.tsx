@@ -14,8 +14,10 @@ interface NavItem {
 const ITEMS: NavItem[] = [
   { label: 'Home', icon: Home, to: '/home', matches: ['/home'] },
   { label: 'Send', icon: Navigation, to: '/send', matches: ['/send'] },
-  { label: 'Activity', icon: Clock, to: '/amount', matches: ['/amount', '/review'] },
-  { label: 'Profile', icon: User, to: '/home', matches: ['/profile'] },
+  // Activity opens the transaction history, and stays highlighted
+  // through the send flow (amount / review) per the design.
+  { label: 'Activity', icon: Clock, to: '/activity', matches: ['/activity', '/amount', '/review'] },
+  { label: 'Profile', icon: User, to: '/profile', matches: ['/profile'] },
 ]
 
 /** Persistent bottom tab bar. Active tab shows a filled navy icon + label. */
