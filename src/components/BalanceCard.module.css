@@ -1,0 +1,78 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-accent), #1e50d8);
+  box-shadow: var(--shadow-card);
+}
+.glow {
+  position: absolute;
+  right: -40px;
+  top: -64px;
+  width: 176px;
+  height: 176px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  filter: blur(36px);
+  pointer-events: none;
+}
+.inner {
+  position: relative;
+}
+
+.brand {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.row {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.muted {
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.82);
+}
+.eye {
+  display: flex;
+  padding: 4px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.92);
+  transition: background-color 0.15s;
+}
+.eye:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.balance {
+  margin-top: 4px;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  font-variant-numeric: tabular-nums;
+}
+
+.bottom {
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.send {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  transition: transform 0.15s;
+}
+.send:hover {
+  transform: translateX(2px);
+}

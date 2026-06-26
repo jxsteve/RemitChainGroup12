@@ -1,26 +1,31 @@
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
+import styles from './ScreenHeader.module.css'
 
 interface ScreenHeaderProps {
   title: string
+  subtitle?: string
+  /** Where the back arrow goes. Defaults to browser back. */
+  onBack?: () => void
 }
 
-/** Back arrow + centered title used on the inner flow screens. */
-export default function ScreenHeader({ title }: ScreenHeaderProps) {
+/** Back arrow + centered title (with optional subtitle) for inner screens. */
+export default function ScreenHeader({ title, subtitle, onBack }: ScreenHeaderProps) {
   const navigate = useNavigate()
   return (
-    <header className="relative flex items-center px-5 pb-2 pt-4">
-      <button
-        type="button"
-        onClick={() => navigate(-1)}
-        aria-label="Go back"
-        className="absolute left-5 text-gray-700"
-      >
-        <ArrowLeft className="h-6 w-6" strokeWidth={2.25} />
-      </button>
-      <h1 className="w-full text-center text-lg font-bold text-gray-900">
-        {title}
-      </h1>
+    <header className={styles.header}>
+      <div className={styles.row}>
+        <button
+          type="button"
+          className={styles.back}
+          aria-label="Go back"
+          onClick={() => (onBack ? onBack() : navigate(-1))}
+        >
+          <ArrowLeft size={24} strokeWidth={2.25} />
+        </button>
+        <h1 className={styles.title}>{title}</h1>
+      </div>
+      {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
     </header>
   )
 }

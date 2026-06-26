@@ -1,34 +1,32 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Navigation } from 'lucide-react'
+import styles from './Processing.module.css'
 
 export default function Processing() {
   const navigate = useNavigate()
 
-  // Return to home after the simulated transfer completes.
+  // Return to home once the simulated transfer completes.
   useEffect(() => {
-    const t = setTimeout(() => navigate('/'), 4000)
+    const t = setTimeout(() => navigate('/home'), 4000)
     return () => clearTimeout(t)
   }, [navigate])
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <header className="pt-4 text-center">
-        <h1 className="text-base font-medium text-gray-800">Processing</h1>
-      </header>
+    <div className={styles.screen}>
+      <p className={styles.topLabel}>Processing</p>
 
-      <div className="flex flex-1 flex-col items-center px-6 pt-24">
-        <div className="flex h-36 w-36 items-center justify-center rounded-full border-2 border-primary/40 bg-white shadow-sm">
-          <Navigation
-            className="h-10 w-10 -rotate-12 text-gray-900"
-            strokeWidth={2}
-          />
+      <div className={styles.body}>
+        <div className={styles.ringWrap}>
+          <span className={styles.ring} />
+          <span className={styles.pulse} />
+          <span className={styles.disc}>
+            <Navigation size={40} className={styles.icon} style={{ transform: 'rotate(-12deg)' }} />
+          </span>
         </div>
 
-        <h2 className="mt-10 text-2xl font-extrabold text-gray-900">
-          Sending Your Money...
-        </h2>
-        <p className="mt-3 text-center text-base text-gray-500">
+        <h1 className={styles.title}>Sending Your Money...</h1>
+        <p className={styles.subtitle}>
           Please do not close the app
           <br />
           or refresh the page

@@ -1,0 +1,52 @@
+.head {
+  padding: 12px 24px 0;
+}
+.back {
+  display: flex;
+  color: var(--color-text-muted);
+}
+
+.center {
+  padding: 0 24px;
+  text-align: center;
+}
+.title {
+  margin-top: 28px;
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+.subtitle {
+  margin: 16px auto 0;
+  max-width: 260px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+.otp {
+  margin-top: 36px;
+}
+.resend {
+  margin-top: 28px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+.resendLink {
+  color: var(--color-accent);
+  font-weight: 700;
+  background: none;
+}
+.resendLink:disabled {
+  color: var(--color-text-subtle);
+  cursor: default;
+}
+.changeEmail {
+  margin-top: 24px;
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 14px;
+  background: none;
+}

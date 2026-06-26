@@ -1,66 +1,49 @@
 import { forwardRef, useId, type InputHTMLAttributes, type ReactNode } from 'react'
-import { ChevronDown, Search } from 'lucide-react'
 import { cn } from '../lib/cn'
+import styles from './Input.module.css'
 
 export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   label?: string
   helperText?: string
   error?: boolean
-  /** Force the focused (green) appearance — useful for documentation/states. */
+  /** Force the focused (green) appearance. */
   focused?: boolean
-  leadingIcon?: ReactNode
-  /** Show a trailing dropdown chevron (e.g. for select-style fields). */
-  withChevron?: boolean
+  /** Content rendered before the input (icon, flag…). */
+  leading?: ReactNode
+  /** Content rendered after the input (chevron, check…). */
+  trailing?: ReactNode
 }
 
 /**
- * Text / select field matching the RemitChain form spec.
- * Supports default, focus (green), error (red) and disabled states.
+ * Form field matching the RemitChain spec.
+ * States: default, focus (green), error (red), disabled.
  */
 export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
-  {
-    label,
-    helperText,
-    error = false,
-    focused = false,
-    disabled = false,
-    leadingIcon = <Search size={18} />,
-    withChevron = true,
-    className,
-    id,
-    ...props
-  },
+  { label, helperText, error = false, focused = false, disabled = false, leading, trailing, className, id, ...props },
   ref,
 ) {
   const autoId = useId()
   const inputId = id ?? autoId
 
-  const field = cn(
-    'flex h-[52px] items-center gap-2.5 rounded-xl border px-3.5 transition-[background-color,border-color,box-shadow] duration-150',
-    // resting + interactive focus state
-    !error &&
-      !disabled &&
-      'border-gray-200 bg-gray-50 focus-within:border-success focus-within:bg-white focus-within:shadow-focus',
-    // forced focus (docs)
-    !error && !disabled && focused && 'border-success bg-white shadow-focus',
-    // error
-    error && !disabled && 'border-danger bg-white shadow-error',
-    // disabled
-    disabled && 'border-gray-200 bg-gray-50 opacity-70',
-  )
-
   return (
-    <div className="w-full">
+    <div className={styles.wrap}>
       {label && (
-        <label htmlFor={inputId} className="mb-2 block text-sm font-bold text-navy">
+        <label htmlFor={inputId} className={styles.label}>
           {label}
         </label>
       )}
 
-      <div className={field}>
-        {leadingIcon && (
-          <span className={cn('shrink-0', disabled ? 'text-gray-300' : 'text-gray-400')} aria-hidden>
-            {leadingIcon}
+      <div
+        className={cn(
+          styles.field,
+          !error && !disabled && focused && styles.focused,
+          error && !disabled && styles.error,
+          disabled && styles.disabled,
+        )}
+      >
+        {leading && (
+          <span className={styles.icon} aria-hidden>
+            {leading}
           </span>
         )}
 
@@ -69,22 +52,18 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
           id={inputId}
           disabled={disabled}
           aria-invalid={error || undefined}
-          className={cn(
-            'w-full bg-transparent text-sm font-medium text-navy outline-none',
-            'placeholder:font-medium placeholder:text-gray-400 disabled:cursor-not-allowed',
-            className,
-          )}
+          className={cn(styles.input, className)}
           {...props}
         />
 
-        {withChevron && (
-          <ChevronDown size={18} className={cn('shrink-0', disabled ? 'text-gray-300' : 'text-gray-400')} aria-hidden />
+        {trailing && (
+          <span className={styles.icon} aria-hidden>
+            {trailing}
+          </span>
         )}
       </div>
 
-      {helperText && (
-        <p className={cn('mt-1.5 text-xs font-medium', error ? 'text-danger' : 'text-gray-400')}>{helperText}</p>
-      )}
+      {helperText && <p className={cn(styles.help, error && styles.helpError)}>{helperText}</p>}
     </div>
   )
 })

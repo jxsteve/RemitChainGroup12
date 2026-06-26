@@ -1,7 +1,7 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-/** Merge Tailwind class names, resolving conflicts predictably. */
-export function cn(...inputs: ClassValue[]): string {
-  return twMerge(clsx(inputs))
+/**
+ * Tiny class-name joiner — filters out falsey values.
+ * Replaces clsx/tailwind-merge now that the project uses plain CSS modules.
+ */
+export function cn(...inputs: Array<string | false | null | undefined>): string {
+  return inputs.filter(Boolean).join(' ')
 }

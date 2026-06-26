@@ -1,0 +1,48 @@
+.dots {
+  display: flex;
+  gap: 18px;
+  justify-content: center;
+}
+.dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid var(--color-accent);
+  transition: background-color 0.15s;
+}
+.dotFilled {
+  background: var(--color-accent);
+}
+
+.pad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px 20px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+.key {
+  height: 64px;
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-border-strong);
+  background: transparent;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.12s, transform 0.12s;
+}
+.key:active {
+  background: #eef1f6;
+  transform: scale(0.97);
+}
+.empty {
+  border: none;
+  background: none;
+  cursor: default;
+}
+.back {
+  color: var(--color-text-muted);
+}

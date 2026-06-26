@@ -1,0 +1,80 @@
+.wrap {
+  width: 100%;
+}
+
+.label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 54px;
+  padding: 0 14px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-muted);
+  transition: border-color 0.15s, background-color 0.15s, box-shadow 0.15s;
+}
+.field:focus-within {
+  border-color: var(--color-success);
+  background: #fff;
+  box-shadow: var(--ring-focus);
+}
+
+/* Forced states (for documentation / static rendering) */
+.focused {
+  border-color: var(--color-success);
+  background: #fff;
+  box-shadow: var(--ring-focus);
+}
+.error {
+  border-color: var(--color-danger);
+  background: #fff;
+  box-shadow: var(--ring-error);
+}
+.error:focus-within {
+  box-shadow: var(--ring-error);
+}
+.disabled {
+  opacity: 0.7;
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-navy);
+}
+.input::placeholder {
+  color: var(--color-text-subtle);
+  font-weight: 500;
+}
+.input:disabled {
+  cursor: not-allowed;
+}
+
+.icon {
+  display: flex;
+  flex-shrink: 0;
+  color: var(--color-text-subtle);
+}
+
+.help {
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-subtle);
+}
+.helpError {
+  color: var(--color-danger);
+}

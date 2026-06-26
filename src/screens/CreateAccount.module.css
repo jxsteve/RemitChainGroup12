@@ -1,0 +1,30 @@
+.head {
+  padding: 12px 24px 0;
+}
+.back {
+  display: flex;
+  color: var(--color-text-muted);
+}
+.title {
+  margin-top: 16px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+.subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 26px;
+}
+.flag {
+  font-size: 18px;
+  line-height: 1;
+}

@@ -1,7 +1,7 @@
 import { Check } from 'lucide-react'
 import { cn } from '../lib/cn'
-
-export type TransactionStatus = 'completed' | 'processing' | 'failed'
+import type { TransactionStatus } from '../types'
+import styles from './StatusBadge.module.css'
 
 export interface StatusBadgeProps {
   status: TransactionStatus
@@ -14,30 +14,20 @@ const labels: Record<TransactionStatus, string> = {
   failed: 'Failed',
 }
 
-/** Pill indicating transaction state. Failed renders as a solid bar per spec. */
+/** Transaction status pill. Failed renders as a solid bar. */
 export function StatusBadge({ status, className }: StatusBadgeProps) {
   if (status === 'failed') {
     return (
-      <span
-        role="status"
-        className={cn('inline-flex h-6 w-28 items-center rounded-md bg-danger', className)}
-      >
-        <span className="sr-only">{labels.failed}</span>
+      <span role="status" className={cn(styles.failed, className)}>
+        <span style={{ position: 'absolute', width: 1, height: 1, overflow: 'hidden', clip: 'rect(0 0 0 0)' }}>
+          {labels.failed}
+        </span>
       </span>
     )
   }
 
-  const tone = status === 'completed' ? 'bg-success' : 'bg-warning'
-
   return (
-    <span
-      role="status"
-      className={cn(
-        'inline-flex items-center gap-1 rounded-md px-2.5 py-1 text-xs font-semibold text-white',
-        tone,
-        className,
-      )}
-    >
+    <span role="status" className={cn(styles.badge, styles[status], className)}>
       <Check size={13} strokeWidth={3} />
       {labels[status]}
     </span>

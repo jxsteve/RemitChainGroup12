@@ -1,0 +1,100 @@
+/* Shared layout primitives for the auth / onboarding screens. */
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.topbar {
+  padding: 28px 24px 0;
+}
+
+.body {
+  padding: 0 24px;
+}
+
+.bottom {
+  padding: 16px 24px 28px;
+}
+
+.h1 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--color-text);
+}
+
+.lead {
+  margin-top: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--color-text-muted);
+}
+
+.footnote {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.link {
+  color: var(--color-accent);
+  font-weight: 700;
+  background: none;
+}
+
+.linkBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: var(--radius);
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-navy);
+  font-weight: 700;
+  font-size: 14px;
+  background: #fff;
+}
+
+.stackGap {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* A soft "3D" icon tile used on the verify screens. */
+.iconTile {
+  width: 96px;
+  height: 96px;
+  border-radius: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  margin: 0 auto;
+  background: linear-gradient(150deg, #3b6cf6, #14227a);
+  box-shadow: 0 18px 30px -14px rgba(30, 64, 175, 0.7), inset 0 2px 6px rgba(255, 255, 255, 0.4);
+}
+
+.centerCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}

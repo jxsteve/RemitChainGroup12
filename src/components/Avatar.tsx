@@ -1,25 +1,37 @@
-import { cn } from '../lib/cn'
-
-export interface AvatarProps {
-  /** Full name — the first letter is used as the fallback initial. */
+interface AvatarProps {
+  /** Full name — first letter is used as the fallback initial. */
   name: string
   size?: number
+  /** Override background (e.g. on dark cards). */
+  background?: string
+  color?: string
   className?: string
 }
 
-/** Circular initial avatar used in transaction rows and headers. */
-export function Avatar({ name, size = 40, className }: AvatarProps) {
+/** Circular initial avatar. */
+export function Avatar({ name, size = 40, background, color, className }: AvatarProps) {
   const initial = name.trim().charAt(0).toUpperCase() || '?'
   return (
     <span
-      className={cn(
-        'inline-flex shrink-0 items-center justify-center rounded-full bg-gray-200 font-bold text-navy',
-        className,
-      )}
-      style={{ width: size, height: size, fontSize: size * 0.4 }}
+      className={className}
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexShrink: 0,
+        width: size,
+        height: size,
+        borderRadius: '50%',
+        fontSize: size * 0.4,
+        fontWeight: 700,
+        background: background ?? '#e5e7eb',
+        color: color ?? 'var(--color-navy)',
+      }}
       aria-hidden
     >
       {initial}
     </span>
   )
 }
+
+export type { AvatarProps }

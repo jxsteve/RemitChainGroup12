@@ -1,12 +1,12 @@
 import { cn } from '../lib/cn'
+import type { TransactionStatus } from '../types'
 import { Avatar } from './Avatar'
-import { StatusBadge, type TransactionStatus } from './StatusBadge'
+import { StatusBadge } from './StatusBadge'
+import styles from './TransactionItem.module.css'
 
 export interface TransactionItemProps {
   name: string
-  /** Pre-formatted date string, e.g. "25 Jun 2026". */
   date: string
-  /** Pre-formatted amount string, e.g. "N100,000". */
   amount: string
   status: TransactionStatus
   onClick?: () => void
@@ -22,23 +22,19 @@ export function TransactionItem({ name, date, amount, status, onClick, className
       tabIndex={interactive ? 0 : undefined}
       onClick={onClick}
       onKeyDown={interactive ? (e) => (e.key === 'Enter' || e.key === ' ') && onClick?.() : undefined}
-      className={cn(
-        'rounded-2xl bg-surface-dark p-4 text-white',
-        interactive && 'cursor-pointer transition-transform duration-150 hover:-translate-y-0.5',
-        className,
-      )}
+      className={cn(styles.item, interactive && styles.clickable, className)}
     >
-      <div className="flex items-center gap-3">
-        <Avatar name={name} size={36} className="bg-white/15 text-white" />
-        <div className="min-w-0">
-          <p className="truncate text-[15px] font-semibold leading-tight">{name}</p>
-          <p className="text-xs font-medium text-white/45">{date}</p>
+      <div className={styles.top}>
+        <Avatar name={name} size={36} background="rgba(255,255,255,0.16)" color="#fff" />
+        <div className={styles.meta}>
+          <p className={styles.name}>{name}</p>
+          <p className={styles.date}>{date}</p>
         </div>
       </div>
 
-      <p className="mt-3 text-xl font-extrabold tracking-tight">{amount}</p>
+      <p className={styles.amount}>{amount}</p>
 
-      <div className="mt-2.5">
+      <div className={styles.badgeRow}>
         <StatusBadge status={status} />
       </div>
     </div>

@@ -1,0 +1,13 @@
+# Netlify build & hosting config for the RemitChain frontend (Vite SPA)
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback — harmless with HashRouter, and future-proofs a switch to BrowserRouter.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

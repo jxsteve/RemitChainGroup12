@@ -1,0 +1,26 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.completed {
+  background: var(--color-success);
+}
+.processing {
+  background: var(--color-warning);
+}
+
+/* Failed renders as a solid bar per the design spec. */
+.failed {
+  display: inline-flex;
+  height: 24px;
+  width: 112px;
+  border-radius: var(--radius-sm);
+  background: var(--color-danger);
+}

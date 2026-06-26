@@ -1,0 +1,58 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { ShieldCheck } from 'lucide-react'
+import { Logo } from '../components/Logo'
+import { Button } from '../components/Button'
+import shared from './shared.module.css'
+import styles from './Welcome.module.css'
+
+export default function Welcome() {
+  const navigate = useNavigate()
+  const [imgOk, setImgOk] = useState(true)
+
+  return (
+    <div className={shared.screen}>
+      <div className={shared.scroll}>
+        <div className={styles.hero}>
+          <div className={styles.logo}>
+            <Logo size={24} />
+          </div>
+
+          {imgOk ? (
+            <img
+              className={styles.heroImg}
+              src="/welcome-security.png"
+              alt="Secure cross-border payments"
+              onError={() => setImgOk(false)}
+            />
+          ) : (
+            <div className={styles.fallback}>
+              <ShieldCheck size={88} strokeWidth={1.5} />
+            </div>
+          )}
+        </div>
+
+        <div className={shared.body} style={{ marginTop: 28 }}>
+          <h1 className={styles.title}>
+            Secure. Fast.
+            <br />
+            Borderless
+          </h1>
+          <p className={styles.subtitle}>Send money across Africa with Confidence</p>
+        </div>
+      </div>
+
+      <div className={shared.bottom}>
+        <Button fullWidth onClick={() => navigate('/signup')}>
+          Create Account
+        </Button>
+        <p className={shared.footnote}>
+          Already have an account?
+          <button className={shared.linkBtn} onClick={() => navigate('/home')}>
+            Log in
+          </button>
+        </p>
+      </div>
+    </div>
+  )
+}

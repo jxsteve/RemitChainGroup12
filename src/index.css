@@ -1,9 +1,66 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ============================================================
+   RemitChain — global stylesheet (plain CSS, no framework)
+   Design tokens live here as CSS custom properties.
+   ============================================================ */
 
 :root {
   color-scheme: light;
+
+  /* Brand */
+  --color-primary: #1d3fc4; /* deep royal blue — primary buttons */
+  --color-primary-strong: #15309c; /* hover / pressed */
+  --color-accent: #2563eb; /* bright blue — balance card, links */
+  --color-navy: #0b1a4a; /* logo "Remit", headings */
+  --color-navy-deep: #060e36; /* dark button */
+
+  /* Surfaces */
+  --color-bg: #f1f3f6; /* app canvas */
+  --color-surface: #ffffff;
+  --color-surface-muted: #f3f4f6; /* input fill */
+  --color-surface-dark: #1e2533; /* transaction card */
+
+  /* Semantic */
+  --color-success: #10b981;
+  --color-warning: #f97316;
+  --color-danger: #ef4444;
+
+  /* Text */
+  --color-text: #0f172a;
+  --color-text-muted: #6b7280;
+  --color-text-subtle: #9ca3af;
+
+  /* Lines */
+  --color-border: #e2e5ea;
+  --color-border-strong: #cbd2dc;
+
+  /* Radius */
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-card: 0 14px 32px -14px rgba(37, 99, 235, 0.5);
+  --shadow-pop: 0 18px 40px -18px rgba(15, 23, 42, 0.35);
+  --ring-focus: 0 0 0 3px rgba(16, 185, 129, 0.18);
+  --ring-error: 0 0 0 3px rgba(239, 68, 68, 0.16);
+
+  /* Layout */
+  --screen-pad: 24px;
+
+  font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
 }
 
 html,
@@ -13,16 +70,84 @@ body,
 }
 
 body {
-  margin: 0;
-  font-family: 'Manrope', ui-sans-serif, system-ui, sans-serif;
+  font-family: 'Manrope', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  color: var(--color-text);
+  background: #e9edf2;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  line-height: 1.4;
 }
 
-/* Hide number input spinners for amount fields */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+/* Remove number input spinners */
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+/* Shared keyframes */
+@keyframes rc-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rc-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rc-pulse-ring {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.7;
+  }
+  70% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
 }
