@@ -21,7 +21,7 @@ export default function Welcome() {
           {imgOk ? (
             <img
               className={styles.heroImg}
-              src="/welcome-security.png"
+              src="/img/unsplash_A60Ti1aJ8hg.png"
               alt="Secure cross-border payments"
               onError={() => setImgOk(false)}
             />
@@ -48,11 +48,12 @@ export default function Welcome() {
         </Button>
         <p className={shared.footnote}>
           Already have an account?
-          <button className={shared.linkBtn} onClick={() => navigate('/home')}>
-            Log in
-          </button>
+         
         </p>
       </div>
+       <button className={styles.linkBtn} onClick={() => navigate('/home')}>
+            Log in
+          </button>
     </div>
   )
 }

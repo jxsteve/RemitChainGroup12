@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  height: 440px;
+  height: 520px;
   background: #cfe2f7;
   overflow: hidden;
 }
@@ -32,10 +32,25 @@
   letter-spacing: -0.02em;
   line-height: 1.15;
   color: var(--color-text);
+  text-align: center;
 }
 .subtitle {
   margin-top: 10px;
   font-size: 14px;
   font-weight: 500;
   color: var(--color-text-muted);
+  text-align: center;
+}
+.linkBtn{
+  background-color: transparent;
+ margin-left: 125px;
+ margin-bottom: 20px;
+  border: 1px solid #1147B2;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 148px;
+
+
 }

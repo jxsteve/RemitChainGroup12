@@ -15,8 +15,5 @@ export const RECENT_TRANSACTIONS: Transaction[] = [
 export const COUNTRIES: Country[] = [
   { code: 'NG', name: 'Nigeria', flag: '🇳🇬', currency: 'NGN' },
   { code: 'GH', name: 'Ghana', flag: '🇬🇭', currency: 'GHS' },
-  { code: 'KE', name: 'Kenya', flag: '🇰🇪', currency: 'KES' },
-  { code: 'ZA', name: 'South Africa', flag: '🇿🇦', currency: 'ZAR' },
-  { code: 'US', name: 'United States', flag: '🇺🇸', currency: 'USD' },
-  { code: 'GB', name: 'United Kingdom', flag: '🇬🇧', currency: 'GBP' },
+ 
 ]

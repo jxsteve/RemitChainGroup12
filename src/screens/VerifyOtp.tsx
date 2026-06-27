@@ -21,16 +21,20 @@ export default function VerifyOtp() {
 
       <div className={shared.scroll}>
         <div className={styles.center} style={{ marginTop: 32 }}>
-          <div className={shared.iconTile}>
-            <Fingerprint size={44} />
-          </div>
+          <img src="/img/unsplash_C3gjLSgTKNw.png" alt="Secure Icon"  className={styles.send}/>
 
+          <br />
+          <br />
           <h1 className={styles.title}>Verify OTP</h1>
           <p className={styles.subtitle}>we sent a 6-digit code to your Phone...........</p>
+
+          <br />
+
 
           <div className={styles.otp}>
             <OtpInput value={code} onChange={setCode} onComplete={() => navigate('/create-pin')} />
           </div>
+          <br />
 
           <p className={styles.resend}>
             Didnt get the code?{' '}
@@ -38,6 +42,7 @@ export default function VerifyOtp() {
               {seconds > 0 ? `Resend (${seconds}s)` : 'Resend'}
             </button>
           </p>
+          
         </div>
       </div>
     </div>
