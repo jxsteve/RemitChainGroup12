@@ -11,11 +11,13 @@ export default function CreatePin() {
   const { completeSignup } = useAuth()
   const [pin, setPin] = useState('')
 
-  const handleComplete = () => {
+  const handleComplete = (fullPin: string) => {
+    // Use the value PinPad reports on completion — the `pin` state hasn't
+    // committed the final digit yet when this fires synchronously.
     // Register + sign in using the PIN as the password. If the user reached
     // this screen without an in-progress signup, just continue to the app.
     try {
-      completeSignup(pin)
+      completeSignup(fullPin)
     } catch {
       /* no pending signup — nothing to finalise */
     }

@@ -19,7 +19,9 @@ export function OtpInput({ length = 6, value, onChange, onComplete }: OtpInputPr
     chars[index] = digit
     const next = chars.join('').slice(0, length)
     onChange(next)
-    if (next.length === length && !next.includes('') && next.replace(/\s/g, '').length === length) {
+    // `next` only reaches full length when every box is filled (a gap shortens
+    // the joined string), so this also guards against missing digits.
+    if (next.length === length) {
       onComplete?.(next)
     }
   }

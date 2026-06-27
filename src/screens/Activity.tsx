@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import BottomNav from '../components/BottomNav'
 import { TransactionItem } from '../components/TransactionItem'
-import { RECENT_TRANSACTIONS } from '../data/transfer'
+import { useTransfer } from '../lib/transfer'
 import styles from './Activity.module.css'
 
 /** Transaction history — the real destination for the Activity tab. */
 export default function Activity() {
   const navigate = useNavigate()
+  const { history } = useTransfer()
 
   return (
     <div className={styles.screen}>
@@ -15,14 +16,14 @@ export default function Activity() {
         <p className={styles.subtitle}>Your recent transfers</p>
 
         <div className={styles.list}>
-          {RECENT_TRANSACTIONS.map((tx) => (
+          {history.map((tx) => (
             <TransactionItem
               key={tx.id}
               name={tx.name}
               date={tx.date}
               amount={tx.amount}
               status={tx.status}
-              onClick={() => navigate('/send')}
+              onClick={() => navigate('/track')}
             />
           ))}
         </div>

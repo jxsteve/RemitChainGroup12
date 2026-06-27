@@ -15,6 +15,7 @@ import EnterAmount from './screens/EnterAmount'
 import ReviewTransfer from './screens/ReviewTransfer'
 import Processing from './screens/Processing'
 import TransferSuccess from './screens/TransferSuccess'
+import TrackTransfer from './screens/TrackTransfer'
 import Activity from './screens/Activity'
 import Profile from './screens/Profile'
 import { useAuth } from './lib/auth'
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/review" element={<RequireAuth><ReviewTransfer /></RequireAuth>} />
           <Route path="/processing" element={<RequireAuth><Processing /></RequireAuth>} />
           <Route path="/success" element={<RequireAuth><TransferSuccess /></RequireAuth>} />
+          <Route path="/track" element={<RequireAuth><TrackTransfer /></RequireAuth>} />
           <Route path="/activity" element={<RequireAuth><Activity /></RequireAuth>} />
           <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
 

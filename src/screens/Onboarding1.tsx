@@ -30,15 +30,14 @@ export default function Onboarding1() {
       </div>
 
       <div className={shared.bottom}>
+        <div className={shared.dots}>
+          <span className={`${shared.dot} ${shared.dotActive}`} />
+          <span className={shared.dot} />
+          <span className={shared.dot} />
+        </div>
         <Button fullWidth onClick={() => navigate('/onboarding')}>
-          Get Started
+          Start
         </Button>
-        <p className={shared.footnote}>
-          Already have an account?
-          <button className={shared.link} onClick={() => navigate('/login')}>
-            Log in
-          </button>
-        </p>
       </div>
     </div>
   )

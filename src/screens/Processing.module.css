@@ -3,26 +3,27 @@
   min-height: 0;
   display: flex;
   flex-direction: column;
+  background: #16213a;
+  color: #fff;
+  padding: 16px 24px 28px;
 }
-.topLabel {
-  padding-top: 20px;
-  text-align: center;
-  font-size: 15px;
-  font-weight: 500;
-  color: var(--color-text);
+.back {
+  display: flex;
+  color: #fff;
+  align-self: flex-start;
 }
+
 .body {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 24px;
-  padding-top: 110px;
+  padding-top: 24px;
 }
 .ringWrap {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 96px;
+  height: 96px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,40 +32,78 @@
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid rgba(37, 99, 235, 0.4);
+  border: 3px solid rgba(96, 138, 245, 0.25);
+  border-top-color: var(--color-accent);
+  animation: rc-spin 1.4s linear infinite;
 }
 .pulse {
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  border: 2px solid var(--color-accent);
+  border: 2px solid rgba(96, 138, 245, 0.4);
   animation: rc-pulse-ring 1.8s ease-out infinite;
 }
-.disc {
-  width: 144px;
-  height: 144px;
-  border-radius: 50%;
-  background: #fff;
-  box-shadow: var(--shadow-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--color-text);
-}
 .icon {
-  animation: rc-spin 2.4s linear infinite;
+  color: var(--color-accent);
 }
 .title {
-  margin-top: 40px;
+  margin-top: 28px;
   font-size: 24px;
   font-weight: 800;
-  color: var(--color-text);
 }
 .subtitle {
-  margin-top: 12px;
+  margin-top: 10px;
   text-align: center;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.5;
-  color: var(--color-text-muted);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.card {
+  margin-top: 40px;
+  width: 100%;
+  padding: 4px 16px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+}
+.row + .row {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+.label {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.65);
+}
+.value {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+}
+.fileIcon {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  border: 1px solid rgba(96, 138, 245, 0.6);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+.noteIcon {
+  color: var(--color-accent);
+  flex-shrink: 0;
 }

@@ -98,3 +98,21 @@
   align-items: center;
   text-align: center;
 }
+
+/* Onboarding page indicator */
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--color-border-strong);
+}
+.dotActive {
+  width: 22px;
+  background: var(--color-accent);
+}

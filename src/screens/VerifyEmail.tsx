@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'lucide-react'
 import { OtpInput } from '../components/OtpInput'
+import { Button } from '../components/Button'
 import { useCountdown } from '../lib/useCountdown'
 import shared from './shared.module.css'
 import styles from './Verify.module.css'
@@ -32,18 +33,25 @@ export default function VerifyEmail() {
             <OtpInput value={code} onChange={setCode} onComplete={() => navigate('/verify-otp')} />
           </div>
               <br />
-              <br />
           <p className={styles.resend}>
             Didnt get the code?{' '}
             <button className={styles.resendLink} disabled={seconds > 0} onClick={restart}>
               {seconds > 0 ? `Resend (${seconds}s)` : 'Resend'}
             </button>
           </p>
-                <br />
-                <br />
-          <button className={styles.changeEmail} onClick={() => navigate('/signup')}>
-            Change Email
-          </button>
+
+          <div className={styles.continueWrap}>
+            <Button fullWidth disabled={code.length < 6} onClick={() => navigate('/verify-otp')}>
+              Continue
+            </Button>
+          </div>
+
+          <p className={styles.orUse}>
+            Or Use
+            <button className={styles.orUsePill} onClick={() => navigate('/verify-otp')}>
+              Phone Number
+            </button>
+          </p>
         </div>
       </div>
     </div>

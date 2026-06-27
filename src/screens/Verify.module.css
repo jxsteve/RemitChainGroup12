@@ -51,6 +51,29 @@
   background: none;
 }
 
+.continueWrap {
+  margin-top: 28px;
+}
+.orUse {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+.orUsePill {
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-accent);
+  border-radius: var(--radius-pill);
+  padding: 4px 14px;
+  font-weight: 700;
+  font-size: 13px;
+  background: #fff;
+}
+
 .send{
   margin-left: 125px;
 }

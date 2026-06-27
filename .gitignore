@@ -42,3 +42,6 @@ vite.config.d.ts
 
 # Local Netlify folder
 .netlify
+
+# Claude Code local config
+.claude/

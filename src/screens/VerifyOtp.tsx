@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft  } from 'lucide-react'
 import { OtpInput } from '../components/OtpInput'
+import { Button } from '../components/Button'
 import { useCountdown } from '../lib/useCountdown'
 import shared from './shared.module.css'
 import styles from './Verify.module.css'
@@ -42,7 +43,12 @@ export default function VerifyOtp() {
               {seconds > 0 ? `Resend (${seconds}s)` : 'Resend'}
             </button>
           </p>
-          
+
+          <div className={styles.continueWrap}>
+            <Button fullWidth disabled={code.length < 6} onClick={() => navigate('/create-pin')}>
+              Continue
+            </Button>
+          </div>
         </div>
       </div>
     </div>

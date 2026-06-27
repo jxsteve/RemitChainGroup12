@@ -44,6 +44,11 @@ export default function Onboarding2() {
       </div>
 
       <div className={shared.bottom}>
+        <div className={shared.dots}>
+          <span className={shared.dot} />
+          <span className={`${shared.dot} ${shared.dotActive}`} />
+          <span className={shared.dot} />
+        </div>
         <Button fullWidth onClick={() => navigate('/welcome')}>
           Next
         </Button>

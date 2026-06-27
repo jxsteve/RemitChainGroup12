@@ -13,7 +13,7 @@
   background: var(--color-success);
 }
 .processing {
-  background: var(--color-warning);
+  background: var(--color-accent);
 }
 
 /* Failed renders as a solid bar per the design spec. */

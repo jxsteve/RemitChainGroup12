@@ -13,10 +13,10 @@ interface NavItem {
 
 const ITEMS: NavItem[] = [
   { label: 'Home', icon: Home, to: '/home', matches: ['/home'] },
-  { label: 'Send', icon: Navigation, to: '/send', matches: ['/send'] },
-  // Activity opens the transaction history, and stays highlighted
-  // through the send flow (amount / review) per the design.
-  { label: 'Activity', icon: Clock, to: '/activity', matches: ['/activity', '/amount', '/review'] },
+  // Send stays active while choosing recipient + amount, per the design.
+  { label: 'Send', icon: Navigation, to: '/send', matches: ['/send', '/amount'] },
+  // Activity opens the transaction history, and is active on review / track.
+  { label: 'Activity', icon: Clock, to: '/activity', matches: ['/activity', '/review', '/track'] },
   { label: 'Profile', icon: User, to: '/profile', matches: ['/profile'] },
 ]
 
