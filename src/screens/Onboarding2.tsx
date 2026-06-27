@@ -22,7 +22,7 @@ export default function Onboarding2() {
             Limitless possibilities.
           </h1>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 56, marginTop: 36 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 36 }}>
             <FeatureCard
               icon={<Zap size={22} fill="currentColor" />}
               title="Fast Transfer"

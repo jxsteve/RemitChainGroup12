@@ -1,15 +1,11 @@
-/* ============================================================
-   RemitChain — global stylesheet (plain CSS, no framework)
-   Design tokens live here as CSS custom properties.
-   ============================================================ */
 
 :root {
   color-scheme: light;
 
   /* Brand */
   --color-primary: #1d3fc4; /* deep royal blue — primary buttons */
-  --color-primary-strong: #15309c; /* hover / pressed */
-  --color-accent: #2563eb; /* bright blue — balance card, links */
+  --color-primary-strong: #15309c;
+  --color-accent: #1147b2; 
   --color-navy: #0b1a4a; /* logo "Remit", headings */
   --color-navy-deep: #060e36; /* dark button */
 

@@ -12,7 +12,6 @@ export default function Welcome() {
 
   return (
     <div className={shared.screen}>
-      <div className={shared.scroll}>
         <div className={styles.hero}>
           <div className={styles.logo}>
             <Logo size={24} />
@@ -32,6 +31,7 @@ export default function Welcome() {
           )}
         </div>
 
+      <div className={shared.bottom}>
         <div className={shared.body} style={{ marginTop: 28 }}>
           <h1 className={styles.title}>
             Secure. Fast.
@@ -40,9 +40,7 @@ export default function Welcome() {
           </h1>
           <p className={styles.subtitle}>Send money across Africa with Confidence</p>
         </div>
-      </div>
-
-      <div className={shared.bottom}>
+        
         <Button fullWidth onClick={() => navigate('/signup')}>
           Create Account
         </Button>
@@ -51,7 +49,7 @@ export default function Welcome() {
          
         </p>
       </div>
-       <button className={styles.linkBtn} onClick={() => navigate('/home')}>
+       <button className={styles.linkBtn} onClick={() => navigate('/login')}>
             Log in
           </button>
     </div>

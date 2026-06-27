@@ -15,7 +15,7 @@ import Processing from './screens/Processing'
 import TransferSuccess from './screens/TransferSuccess'
 import Activity from './screens/Activity'
 import Profile from './screens/Profile'
-
+import Login from "./screens/Login";
 /**
  * RemitChain prototype — full flow:
  * Onboarding → Welcome → Create Account → Verify Email → Verify OTP →
@@ -31,6 +31,7 @@ export default function App() {
           <Route path="/" element={<Onboarding1 />} />
           <Route path="/onboarding" element={<Onboarding2 />} />
           <Route path="/welcome" element={<Welcome />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<CreateAccount />} />
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />

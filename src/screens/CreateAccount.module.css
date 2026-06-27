@@ -7,17 +7,18 @@
 }
 .title {
   margin-top: 16px;
-  font-size: 28px;
-  font-weight: 800;
+  font-size: 24px;
+  font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--color-text);
 }
 .subtitle {
   margin-top: 4px;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 10px;
+  font-weight: 400;
   color: var(--color-text-muted);
 }
+
 .form {
   display: flex;
   flex-direction: column;

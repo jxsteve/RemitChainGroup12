@@ -9,11 +9,15 @@ import styles from './CreateAccount.module.css'
 export default function CreateAccount() {
   const navigate = useNavigate()
   const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [phone, setPhone] = useState('')
 
+
   const phoneValid = phone.replace(/\D/g, '').length >= 10
-  const canSubmit = firstName.trim() && /\S+@\S+\.\S+/.test(email) && phoneValid
+  const canSubmit = firstName.trim() &&
+              lastName.trim() 
+              && /\S+@\S+\.\S+/.test(email) && phoneValid
 
   return (
     <div className={shared.screen}>
@@ -30,21 +34,27 @@ export default function CreateAccount() {
           <div className={styles.form}>
             <Input
               label="First Name"
-              placeholder="Placeholder"
+              placeholder="Enter First name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <Input
+              label="Last Name"
+              placeholder="enter Last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
+            <Input
               label="Email Address"
               type="email"
-              placeholder="Placeholder"
+              placeholder="Enter email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Input
               label="Phone Number"
               type="tel"
-              placeholder="Placeholder"
+              placeholder="Enter Phone number"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
               leading={<span className={styles.flag}>🇳🇬</span>}
@@ -60,7 +70,7 @@ export default function CreateAccount() {
         </Button>
         <p className={shared.footnote}>
           Already have an account?
-          <button className={shared.linkBtn} onClick={() => navigate('/home')}>
+          <button className={shared.linkBtn} onClick={() => navigate('/login')}>
             Log in
           </button>
         </p>

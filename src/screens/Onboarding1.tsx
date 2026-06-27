@@ -10,7 +10,7 @@ export default function Onboarding1() {
 
   return (
     <div className={shared.screen}>
-      <div className={shared.scroll}>
+
         <div className={shared.topbar}>
           <Logo size={26} />
         </div>
@@ -28,7 +28,6 @@ export default function Onboarding1() {
           
           </div>
         </div>
-      </div>
 
       <div className={shared.bottom}>
         <Button fullWidth onClick={() => navigate('/onboarding')}>

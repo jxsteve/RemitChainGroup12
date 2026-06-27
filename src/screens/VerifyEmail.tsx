@@ -29,7 +29,7 @@ export default function VerifyEmail() {
           <p className={styles.subtitle}>we sent a 6-digit code to your email...........</p>
               <br />
           <div className={styles.otp}>
-            <OtpInput value={code} onChange={setCode} onComplete={() => navigate('/verify-otp')} />
+            <OtpInput value={code} onChange={setCode} onComplete={() => navigate('/home')} />
           </div>
               <br />
               <br />
@@ -39,11 +39,16 @@ export default function VerifyEmail() {
               {seconds > 0 ? `Resend (${seconds}s)` : 'Resend'}
             </button>
           </p>
-                <br />
-                <br />
-          <button className={styles.changeEmail} onClick={() => navigate('/signup')}>
-            Change Email
-          </button>
+          <div>
+            <span>Use</span>
+            <button className={styles.usenumber} onClick={() => navigate('/verify-otp')}>
+              phone number
+            </button>
+            Or
+            <button className={styles.changeEmail} onClick={() => navigate('/signup')}>
+              Change Email
+            </button>
+          </div>
         </div>
       </div>
     </div>

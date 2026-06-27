@@ -54,3 +54,7 @@
 .send{
   margin-left: 125px;
 }
+
+.usenumber {
+  color: var(--color-accent)
+}

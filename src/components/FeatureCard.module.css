@@ -7,21 +7,24 @@
   color: #fff;
   box-shadow: var(--shadow-card);
 }
+
 .iconWrap {
   flex-shrink: 0;
   width: 44px;
   height: 44px;
   border-radius: var(--radius);
-  background: rgba(255, 255, 255, 0.22);
+  background: #e1f1ff;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--color-navy-deep);
 }
+
 .title {
   font-size: 18px;
   font-weight: 700;
 }
+
 .desc {
   margin-top: 6px;
   font-size: 14px;

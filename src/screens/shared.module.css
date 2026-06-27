@@ -9,6 +9,12 @@
 
 .scroll {
   flex: 1;
+  min-height: 420px;
+  overflow-y: auto;
+}
+
+.scroll {
+  flex: 1;
   min-height: 0;
   overflow-y: auto;
 }
@@ -22,7 +28,8 @@
 }
 
 .bottom {
-  padding: 16px 24px 28px;
+  padding: 6px 28px;
+  margin-top: 0;
 }
 
 .h1 {
