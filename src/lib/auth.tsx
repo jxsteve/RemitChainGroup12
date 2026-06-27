@@ -96,15 +96,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = (identifier: string, password: string): User => {
-    const id = identifier.trim().toLowerCase()
-    const users = loadUsers()
-    const account = users.find(
-      (u) => u.email.toLowerCase() === id || digits(u.phone) === digits(identifier),
+    // TEMPORARY (no backend yet): accept any email/phone + password. If a
+    // matching registered account exists we reuse it; otherwise we sign in
+    // with a stub user built from the entered identifier.
+    // TODO: replace with real auth once the backend is available.
+    const id = identifier.trim()
+    const isEmail = id.includes('@')
+    const existing = loadUsers().find(
+      (u) => u.email.toLowerCase() === id.toLowerCase() || digits(u.phone) === digits(identifier),
     )
-    if (!account) throw new Error('No account found. Please sign up first.')
-    if (account.password !== password) {
-      throw new Error('Incorrect password. Your password is your 6-digit PIN.')
-    }
+    const account: User =
+      existing ?? {
+        firstName: isEmail ? id.split('@')[0] : 'Mira',
+        lastName: '',
+        email: isEmail ? id : '',
+        phone: isEmail ? '' : id,
+        password,
+      }
     write(SESSION_KEY, account)
     setUser(account)
     return account

@@ -21,9 +21,8 @@ export default function Login() {
     if (user) navigate('/home', { replace: true })
   }, [user, navigate])
 
-  const identifierValid =
-    /\S+@\S+\.\S+/.test(identifier) || identifier.replace(/\D/g, '').length >= 10
-  const canSubmit = identifierValid && password.length >= 4
+  // TEMPORARY (no backend yet): any non-empty email/phone + password is accepted.
+  const canSubmit = identifier.trim().length > 0 && password.length > 0
 
   const handleLogin = () => {
     setError('')
