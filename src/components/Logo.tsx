@@ -34,13 +34,3 @@ export function Logo({ size = 28, variant = 'default', className }: LogoProps) {
     </span>
   )
 }
-
-function ChainLink({ size }: { size: number }) {
-  const s = size * 0.78
-  return (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" aria-hidden style={{ margin: `0 ${size * 0.01}px` }}>
-      <circle cx="12" cy="12" r="7" stroke="#2563eb" strokeWidth="3.4" />
-      <circle cx="12" cy="12" r="2.4" fill="#2563eb" />
-    </svg>
-  )
-}

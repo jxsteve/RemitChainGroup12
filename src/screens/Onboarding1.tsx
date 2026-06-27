@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { User } from 'lucide-react'
 import { Logo } from '../components/Logo'
 import { Button } from '../components/Button'
 import shared from './shared.module.css'
