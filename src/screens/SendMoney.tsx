@@ -23,7 +23,7 @@ export default function SendMoney() {
       <div className={styles.scroll}>
         <div className={styles.banner}>
           <ShieldCheck size={18} className={styles.bannerIcon} />
-          Your transfer is protected with end-to-end security
+          <span>Your transfer is protected with end-to-end security</span>
         </div>
 
         <h2 className={styles.label}>SelectCountry</h2>

@@ -4,7 +4,7 @@ import { ArrowLeft } from 'lucide-react'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import shared from './shared.module.css'
-import styles from './CreateAccount.module.css'
+import styles from './login.module.css'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -28,15 +28,16 @@ export default function Login() {
             <ArrowLeft size={24} strokeWidth={2.25} />
           </button>
 
-          <h1 className={styles.title}>Welcome Back</h1>
+          <h1 className={styles.title}>Welcome Back!</h1>
 
-          <p className={styles.subtitle}>
-            Sign in to continue to your account
-          </p>
         </div>
 
         <div className={shared.body}>
           <div className={styles.form}>
+            <div>
+              <h2>Login</h2>
+              <p className="login-subtitle">Let's get you started</p>
+            </div>
             <Input
               label="Email Address/Phone Number"
               type="email"

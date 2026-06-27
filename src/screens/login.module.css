@@ -1,0 +1,56 @@
+.head {
+  padding: 12px 24px 0;
+  text-align: center;
+  
+}
+.back {
+  display: flex;
+  color: var(--color-text-muted);
+}
+
+.login-subtitle {
+    font-size: 12px;
+}
+
+.title {
+  margin-top: 16px;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0!.02em;
+  color: var(--color-text);
+  text-decoration: underline;
+}
+.subtitle {
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 26px;
+}
+.flag {
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+.forgot {
+  margin-top: 8px;
+  align-self: flex-end;
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
