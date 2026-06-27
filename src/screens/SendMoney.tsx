@@ -6,7 +6,7 @@ import BottomNav from '../components/BottomNav'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { useTransfer } from '../lib/transfer'
-import { COUNTRIES, CONTACTS } from '../data/transfer'
+import { COUNTRIES, CONTACTS, GHS } from '../data/transfer'
 import type { Country, Recipient } from '../types'
 import shared from './shared.module.css'
 import styles from './SendMoney.module.css'
@@ -37,6 +37,31 @@ export default function SendMoney() {
 
   const choose = (c: Recipient) => {
     setRecipient(c)
+    navigate('/amount')
+  }
+
+  // Once a country is chosen, a valid email or phone number is enough to proceed
+  // even without picking an existing contact.
+  const typed = query.trim()
+  const isEmail = /^\S+@\S+\.\S+$/.test(typed)
+  const isPhone = /^\+?[\d\s-]{7,}$/.test(typed) && typed.replace(/\D/g, '').length >= 7
+  const typedRecipientValid = Boolean(country) && (isEmail || isPhone)
+  const canContinue = Boolean(recipient) || typedRecipientValid
+
+  const handleContinue = () => {
+    if (!recipient && typedRecipientValid && country) {
+      choose({
+        id: `new-${typed}`,
+        name: typed,
+        initial: typed.charAt(0).toUpperCase(),
+        phone: isPhone ? typed : '',
+        wallet: isEmail ? typed : `${country.currency} Wallet. ${typed}`,
+        country,
+        currency: GHS,
+        group: 'all',
+      })
+      return
+    }
     navigate('/amount')
   }
 
@@ -138,8 +163,8 @@ export default function SendMoney() {
         <Button
           fullWidth
           className={styles.continue}
-          disabled={!recipient}
-          onClick={() => navigate('/amount')}
+          disabled={!canContinue}
+          onClick={handleContinue}
         >
           Continue
         </Button>
