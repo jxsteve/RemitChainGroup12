@@ -21,7 +21,15 @@ export default function CreatePin() {
     } catch {
       /* no pending signup — nothing to finalise */
     }
-    navigate('/home', { replace: true })
+    navigate('/confirmation', {
+      replace: true,
+      state: {
+        title: 'Passcode Created',
+        message: 'Your 6-digit PIN has been set successfully. Keep it safe — you will use it to log in and authorise transfers.',
+        ctaLabel: 'Continue',
+        to: '/home',
+      },
+    })
   }
 
   return (

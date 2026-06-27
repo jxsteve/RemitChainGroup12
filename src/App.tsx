@@ -9,6 +9,7 @@ import CreateAccount from './screens/CreateAccount'
 import VerifyEmail from './screens/VerifyEmail'
 import VerifyOtp from './screens/VerifyOtp'
 import CreatePin from './screens/CreatePin'
+import Confirmation from './screens/Confirmation'
 import Home from './screens/Home'
 import SendMoney from './screens/SendMoney'
 import EnterAmount from './screens/EnterAmount'
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/verify-email" element={<VerifyEmail />} />
           <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/create-pin" element={<CreatePin />} />
+          <Route path="/confirmation" element={<Confirmation />} />
 
           {/* App (requires a session) */}
           <Route path="/home" element={<RequireAuth><Home /></RequireAuth>} />
