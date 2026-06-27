@@ -29,9 +29,7 @@ export function Logo({ size = 28, variant = 'default', className }: LogoProps) {
     >
       <span style={{ color: remitColor }}>Remit</span>
       <span style={{ display: 'inline-flex', alignItems: 'center', color: 'var(--color-accent)' }}>
-        ch
-        <ChainLink size={size} />
-        in
+        chain
       </span>
     </span>
   )

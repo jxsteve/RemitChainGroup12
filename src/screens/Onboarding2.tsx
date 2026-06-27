@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { Eye, Zap } from 'lucide-react'
+import { Eye, Zap, Lock } from 'lucide-react'
 import { Logo } from '../components/Logo'
 import { Button } from '../components/Button'
 import { FeatureCard } from '../components/FeatureCard'
@@ -27,6 +27,12 @@ export default function Onboarding2() {
               icon={<Zap size={22} fill="currentColor" />}
               title="Fast Transfer"
               description="Send money in minutes with lightening-fast processing."
+            />
+             <FeatureCard
+              icon={<Lock size={22} />}
+              title=" Bank-Grade Security"
+
+              description="Your money and data are protected with advanced encryption."
             />
             <FeatureCard
               icon={<Eye size={22} />}

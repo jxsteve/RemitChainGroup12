@@ -24,20 +24,8 @@ export default function Onboarding1() {
           <p className={shared.lead}>Fast, Secured, Transparent. Send money across borders with confidence.</p>
 
           <div className={styles.hero}>
-            <div className={styles.orbit} />
-            <div className={styles.globe} />
-            <div className={styles.orbit2} />
-
-            <span className={`${styles.badge} ${styles.topRight}`}>$</span>
-            <span className={`${styles.badge} ${styles.left}`}>£</span>
-            <span className={`${styles.badge} ${styles.right}`}>₱</span>
-
-            <span className={`${styles.avatar} ${styles.topLeft}`}>
-              <User size={26} fill="#fff" />
-            </span>
-            <span className={`${styles.avatar} ${styles.bottom}`}>
-              <User size={26} fill="#fff" />
-            </span>
+           <img src="/img/image 2.png" alt="" />
+          
           </div>
         </div>
       </div>
