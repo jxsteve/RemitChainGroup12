@@ -1,0 +1,70 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 24px 0;
+}
+.back {
+  display: flex;
+  color: var(--color-text-muted);
+}
+.welcome {
+  margin: 28px auto 0;
+  width: fit-content;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 6px;
+  text-decoration-thickness: 2px;
+}
+.heading {
+  margin-top: 36px;
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+.subtitle {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}
+.form {
+  margin-top: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.eye {
+  display: flex;
+  color: var(--color-text-muted);
+}
+.forgot {
+  margin-top: -8px;
+  align-self: flex-start;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-accent);
+  background: none;
+}
+.error {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-danger);
+}
+.submit {
+  margin-top: 12px;
+}
+.secure {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--color-text-muted);
+}

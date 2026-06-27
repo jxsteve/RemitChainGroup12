@@ -36,7 +36,7 @@ export default function Onboarding1() {
         </Button>
         <p className={shared.footnote}>
           Already have an account?
-          <button className={shared.link} onClick={() => navigate('/home')}>
+          <button className={shared.link} onClick={() => navigate('/login')}>
             Log in
           </button>
         </p>

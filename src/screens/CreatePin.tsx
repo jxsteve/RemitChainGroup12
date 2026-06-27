@@ -2,12 +2,25 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, LockKeyhole } from 'lucide-react'
 import { PinPad } from '../components/PinPad'
+import { useAuth } from '../lib/auth'
 import shared from './shared.module.css'
 import styles from './Verify.module.css'
 
 export default function CreatePin() {
   const navigate = useNavigate()
+  const { completeSignup } = useAuth()
   const [pin, setPin] = useState('')
+
+  const handleComplete = () => {
+    // Register + sign in using the PIN as the password. If the user reached
+    // this screen without an in-progress signup, just continue to the app.
+    try {
+      completeSignup(pin)
+    } catch {
+      /* no pending signup — nothing to finalise */
+    }
+    navigate('/home', { replace: true })
+  }
 
   return (
     <div className={shared.screen}>
@@ -27,7 +40,7 @@ export default function CreatePin() {
           <p className={styles.subtitle}>This Pin will protect your account</p>
 
           <div style={{ marginTop: 40, padding: '0 24px' }}>
-            <PinPad value={pin} onChange={setPin} onComplete={() => navigate('/home')} />
+            <PinPad value={pin} onChange={setPin} onComplete={handleComplete} />
           </div>
         </div>
       </div>

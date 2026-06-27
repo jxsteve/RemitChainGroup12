@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { ChevronRight, User, Shield, CircleHelp, LogOut, type LucideIcon } from 'lucide-react'
 import BottomNav from '../components/BottomNav'
 import { Avatar } from '../components/Avatar'
+import { useAuth } from '../lib/auth'
 import styles from './Profile.module.css'
 
 interface Item {
@@ -19,6 +20,15 @@ const ITEMS: Item[] = [
 /** Basic profile screen — gives the Profile tab a real destination. */
 export default function Profile() {
   const navigate = useNavigate()
+  const { user, logout } = useAuth()
+
+  const fullName = user ? `${user.firstName} ${user.lastName}`.trim() : 'Mira Igboanusi'
+  const email = user?.email ?? 'miracleigboanusi@gmail.com'
+
+  const handleLogout = () => {
+    logout()
+    navigate('/login', { replace: true })
+  }
 
   return (
     <div className={styles.screen}>
@@ -26,10 +36,10 @@ export default function Profile() {
         <h1 className={styles.title}>Profile</h1>
 
         <div className={styles.card}>
-          <Avatar name="Mira" size={56} />
+          <Avatar name={fullName} size={56} />
           <div>
-            <p className={styles.name}>Mira Igboanusi</p>
-            <p className={styles.email}>miracleigboanusi@gmail.com</p>
+            <p className={styles.name}>{fullName}</p>
+            <p className={styles.email}>{email}</p>
           </div>
         </div>
 
@@ -45,7 +55,7 @@ export default function Profile() {
           ))}
         </div>
 
-        <button className={styles.logout} onClick={() => navigate('/')}>
+        <button className={styles.logout} onClick={handleLogout}>
           <LogOut size={18} />
           Log out
         </button>

@@ -48,12 +48,11 @@ export default function Welcome() {
         </Button>
         <p className={shared.footnote}>
           Already have an account?
-         
-        </p>
-      </div>
-       <button className={styles.linkBtn} onClick={() => navigate('/home')}>
+          <button className={styles.linkBtn} onClick={() => navigate('/login')}>
             Log in
           </button>
+        </p>
+      </div>
     </div>
   )
 }
