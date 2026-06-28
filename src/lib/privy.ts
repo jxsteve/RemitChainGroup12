@@ -1,4 +1,13 @@
 import type { PrivyClientConfig, User } from '@privy-io/react-auth'
+import { celo, celoAlfajores } from 'viem/chains'
+
+/**
+ * Target chain: the RemitChain contract + USDC live on Celo. Default to the
+ * Alfajores testnet for development; set VITE_CELO_MAINNET=true to use Celo
+ * mainnet (42220). Embedded wallets operate on this chain.
+ */
+export const REMITCHAIN_CHAIN =
+  (import.meta.env.VITE_CELO_MAINNET as string | undefined) === 'true' ? celo : celoAlfajores
 
 /**
  * Privy app ID — this is a PUBLIC identifier (safe in the frontend bundle).
@@ -42,6 +51,10 @@ export const privyConfig: PrivyClientConfig = {
     walletChainType: 'ethereum-only',
   },
   loginMethods: ['email', 'sms', 'wallet'],
+  // Operate on Celo (testnet by default). Without this Privy defaults to
+  // Ethereum mainnet, so embedded wallets / signing would target the wrong chain.
+  defaultChain: REMITCHAIN_CHAIN,
+  supportedChains: [celoAlfajores, celo],
   // Auto-provision a self-custodial embedded wallet for every account that
   // doesn't already have one — the core RemitChain idea ("sign up → you have a
   // wallet"). Note: embedded wallets must also be enabled for this app in the
