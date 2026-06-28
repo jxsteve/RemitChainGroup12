@@ -26,9 +26,9 @@ export default function CreatePin() {
       state: {
         title: 'Account & wallet ready',
         message:
-          'Your 6-digit PIN is set and a secure web3 wallet has been created for you automatically. Next, back up your recovery phrase so your funds are always safe.',
-        ctaLabel: 'Secure my wallet',
-        to: '/wallet/backup',
+          'Your 6-digit PIN is set and a secure web3 wallet has been created for you automatically. You are all set to send and receive money.',
+        ctaLabel: 'Go to dashboard',
+        to: '/home',
       },
     })
   }

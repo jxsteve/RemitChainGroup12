@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
-import { generateMnemonic, generateWallet, type Wallet } from './wallet'
+import { generateWallet, type Wallet } from './wallet'
 
 /**
  * Mock client-side auth for the RemitChain prototype.
@@ -38,17 +38,11 @@ interface AuthState {
   /** Sign in an existing user by email or phone + password (PIN). */
   login: (identifier: string, password: string) => User
   logout: () => void
-  /**
-   * The account's 12-word recovery phrase, generated once and persisted so the
-   * backup screen can re-display it. Mock-only — never do this with a real key.
-   */
-  recoveryPhrase: () => string[]
 }
 
 const USERS_KEY = 'remitchain.users'
 const SESSION_KEY = 'remitchain.session'
 const PENDING_KEY = 'remitchain.pending'
-const MNEMONIC_KEY = 'remitchain.mnemonic'
 
 function read<T>(key: string): T | null {
   try {
@@ -86,15 +80,6 @@ function ensureWallet(user: User | null): User | null {
   return upgraded
 }
 
-/** Read the persisted recovery phrase, generating + saving one on first use. */
-function loadMnemonic(): string[] {
-  const existing = read<string[]>(MNEMONIC_KEY)
-  if (existing && existing.length) return existing
-  const phrase = generateMnemonic()
-  write(MNEMONIC_KEY, phrase)
-  return phrase
-}
-
 const digits = (s: string) => s.replace(/\D/g, '')
 
 const AuthContext = createContext<AuthState | null>(null)
@@ -112,9 +97,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const completeSignup = (pin: string): User => {
     if (!pendingSignup) throw new Error('No signup in progress')
-    // Provision the user's web3 wallet + recovery phrase as the account is created.
+    // Provision the user's web3 wallet as the account is created.
     const newUser: User = { ...pendingSignup, password: pin, wallet: generateWallet() }
-    write(MNEMONIC_KEY, generateMnemonic())
     // Dedupe by email so re-running the flow updates the same account.
     const users = loadUsers().filter(
       (u) => u.email.toLowerCase() !== newUser.email.toLowerCase(),
@@ -153,8 +137,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return withWallet
   }
 
-  const recoveryPhrase = () => loadMnemonic()
-
   const logout = () => {
     remove(SESSION_KEY)
     setUser(null)
@@ -162,7 +144,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, pendingSignup, startSignup, completeSignup, login, logout, recoveryPhrase }}
+      value={{ user, pendingSignup, startSignup, completeSignup, login, logout }}
     >
       {children}
     </AuthContext.Provider>

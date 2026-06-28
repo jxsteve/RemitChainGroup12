@@ -22,7 +22,6 @@ import Profile from './screens/Profile'
 import Wallet from './screens/Wallet'
 import ReceiveFunds from './screens/ReceiveFunds'
 import Withdraw from './screens/Withdraw'
-import BackupWallet from './screens/BackupWallet'
 import { useAuth } from './lib/auth'
 
 /**
@@ -72,7 +71,6 @@ export default function App() {
           <Route path="/wallet" element={<RequireAuth><Wallet /></RequireAuth>} />
           <Route path="/wallet/receive" element={<RequireAuth><ReceiveFunds /></RequireAuth>} />
           <Route path="/wallet/withdraw" element={<RequireAuth><Withdraw /></RequireAuth>} />
-          <Route path="/wallet/backup" element={<RequireAuth><BackupWallet /></RequireAuth>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

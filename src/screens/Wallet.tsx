@@ -6,7 +6,6 @@ import {
   Send,
   Copy,
   Check,
-  ShieldAlert,
   Eye,
   EyeOff,
   ArrowDownLeft,
@@ -27,7 +26,7 @@ const TYPE_LABEL: Record<WalletTx['type'], string> = {
 
 export default function Wallet() {
   const navigate = useNavigate()
-  const { balance, asset, activity, backedUp } = useWallet()
+  const { balance, asset, activity } = useWallet()
   const { address, network } = useWalletIdentity()
   const [hidden, setHidden] = useState(false)
   const [copied, setCopied] = useState(false)
@@ -91,16 +90,6 @@ export default function Wallet() {
             Send
           </button>
         </div>
-
-        {/* Backup nudge */}
-        {!backedUp && (
-          <button className={styles.backup} onClick={() => navigate('/wallet/backup')}>
-            <ShieldAlert size={20} />
-            <span>
-              <strong>Back up your wallet.</strong> Save your recovery phrase to keep your funds safe.
-            </span>
-          </button>
-        )}
 
         {/* How it works */}
         <div className={styles.explainer}>

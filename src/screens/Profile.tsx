@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, User, Wallet, KeyRound, Shield, CircleHelp, LogOut, type LucideIcon } from 'lucide-react'
+import { ChevronRight, User, Wallet, Shield, CircleHelp, LogOut, type LucideIcon } from 'lucide-react'
 import { usePrivy } from '@privy-io/react-auth'
 import BottomNav from '../components/BottomNav'
 import { Avatar } from '../components/Avatar'
@@ -16,7 +16,6 @@ interface Item {
 const ITEMS: Item[] = [
   { label: 'Account details', icon: User, to: '/home' },
   { label: 'My wallet', icon: Wallet, to: '/wallet' },
-  { label: 'Recovery phrase', icon: KeyRound, to: '/wallet/backup' },
   { label: 'Security & PIN', icon: Shield, to: '/create-pin' },
   { label: 'Help & support', icon: CircleHelp, to: '/home' },
 ]

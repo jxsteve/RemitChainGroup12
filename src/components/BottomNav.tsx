@@ -15,12 +15,12 @@ const ITEMS: NavItem[] = [
   { label: 'Home', icon: Home, to: '/home', matches: ['/home'] },
   // Send stays active while choosing recipient + amount, per the design.
   { label: 'Send', icon: Navigation, to: '/send', matches: ['/send', '/amount'] },
-  // Wallet stays active across the deposit / withdraw / backup sub-screens.
+  // Wallet stays active across the deposit / withdraw sub-screens.
   {
     label: 'Wallet',
     icon: Wallet,
     to: '/wallet',
-    matches: ['/wallet', '/wallet/receive', '/wallet/withdraw', '/wallet/backup'],
+    matches: ['/wallet', '/wallet/receive', '/wallet/withdraw'],
   },
   // Activity opens the transaction history, and is active on review / track.
   { label: 'Activity', icon: Clock, to: '/activity', matches: ['/activity', '/review', '/track'] },

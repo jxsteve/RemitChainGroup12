@@ -1,15 +1,27 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Check } from 'lucide-react'
+import { usePrivy, useLogin } from '@privy-io/react-auth'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { useAuth } from '../lib/auth'
 import shared from './shared.module.css'
 import styles from './CreateAccount.module.css'
 
+/**
+ * Create Account collects the user's name locally, then hands identity
+ * verification + wallet creation to Privy's hosted modal. The name is stashed
+ * via `startSignup` so the PIN step can finalise the local profile; Privy sends
+ * the email/SMS code and provisions the embedded wallet on first login.
+ */
 export default function CreateAccount() {
   const navigate = useNavigate()
   const { startSignup } = useAuth()
+  const { ready } = usePrivy()
+  const { login } = useLogin({
+    onComplete: ({ isNewUser }) =>
+      navigate(isNewUser ? '/create-pin' : '/home', { replace: true }),
+  })
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
@@ -17,17 +29,19 @@ export default function CreateAccount() {
 
   const phoneValid = phone.replace(/\D/g, '').length >= 10
   const canSubmit = Boolean(
-    firstName.trim() && lastName.trim() && /\S+@\S+\.\S+/.test(email) && phoneValid,
+    ready && firstName.trim() && lastName.trim() && /\S+@\S+\.\S+/.test(email) && phoneValid,
   )
 
   const handleSignup = () => {
+    // Stash the name so CreatePin can finalise the local profile, then open the
+    // Privy modal (prefilled with the entered email) to verify + create wallet.
     startSignup({
       firstName: firstName.trim(),
       lastName: lastName.trim(),
       email: email.trim(),
       phone: phone.trim(),
     })
-    navigate('/create-pin')
+    login({ prefill: { type: 'email', value: email.trim() } })
   }
 
   return (

@@ -1,28 +1,24 @@
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react'
-import { usePrivy } from '@privy-io/react-auth'
+import { ArrowLeft, ShieldCheck } from 'lucide-react'
+import { usePrivy, useLogin } from '@privy-io/react-auth'
 import { Logo } from '../components/Logo'
 import { Button } from '../components/Button'
-import { Input } from '../components/Input'
 import shared from './shared.module.css'
 import styles from './Login.module.css'
 
+/**
+ * Login entry point. Real auth is handled by Privy's hosted modal (email code /
+ * SMS / wallet) — tapping Continue opens it. New users are routed to set their
+ * app PIN; returning users go straight home. With embedded wallets enabled, the
+ * `onComplete` callback fires only after the wallet has been provisioned.
+ */
 export default function Login() {
   const navigate = useNavigate()
-  // Real authentication is handled by Privy (email code / SMS / wallet).
-  const { ready, authenticated, login } = usePrivy()
-  const [identifier, setIdentifier] = useState('')
-  const [password, setPassword] = useState('')
-  const [showPw, setShowPw] = useState(false)
-
-  // Once Privy reports an authenticated session, enter the app.
-  useEffect(() => {
-    if (ready && authenticated) navigate('/home', { replace: true })
-  }, [ready, authenticated, navigate])
-
-  const handleLogin = () => login()
-  const canSubmit = ready
+  const { ready } = usePrivy()
+  const { login } = useLogin({
+    onComplete: ({ isNewUser }) =>
+      navigate(isNewUser ? '/create-pin' : '/home', { replace: true }),
+  })
 
   return (
     <div className={shared.screen}>
@@ -43,51 +39,19 @@ export default function Login() {
 
         <div className={shared.body}>
           <h2 className={styles.heading}>Login</h2>
-          <p className={styles.subtitle}>Let's get you started</p>
+          <p className={styles.subtitle}>
+            Continue with your email, phone number or wallet — we'll send a one-time code to verify
+            it's you.
+          </p>
 
-          <form
-            className={styles.form}
-            onSubmit={(e) => {
-              e.preventDefault()
-              if (canSubmit) handleLogin()
-            }}
+          <Button
+            fullWidth
+            className={styles.submit}
+            disabled={!ready}
+            onClick={() => login()}
           >
-            <Input
-              label="Email address/ Phone Number"
-              placeholder="Input your email address/phone number"
-              autoComplete="username"
-              value={identifier}
-              onChange={(e) => setIdentifier(e.target.value)}
-            />
-
-            <Input
-              label="Password"
-              type={showPw ? 'text' : 'password'}
-              placeholder="Enter your password"
-              autoComplete="current-password"
-              value={password}
-              leading={<LockKeyhole size={18} />}
-              trailing={
-                <button
-                  type="button"
-                  className={styles.eye}
-                  aria-label={showPw ? 'Hide password' : 'Show password'}
-                  onClick={() => setShowPw((v) => !v)}
-                >
-                  {showPw ? <Eye size={18} /> : <EyeOff size={18} />}
-                </button>
-              }
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button type="button" className={styles.forgot} onClick={handleLogin}>
-              Forgot password
-            </button>
-
-            <Button type="submit" fullWidth className={styles.submit} disabled={!canSubmit}>
-              Login
-            </Button>
-          </form>
+            Continue
+          </Button>
 
           <p className={styles.secure}>
             <ShieldCheck size={16} color="var(--color-accent)" />
