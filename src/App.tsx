@@ -9,7 +9,6 @@ import Login from './screens/Login'
 import CreateAccount from './screens/CreateAccount'
 import CreatePin from './screens/CreatePin'
 import Confirmation from './screens/Confirmation'
-import Home from './screens/Home'
 import SendMoney from './screens/SendMoney'
 import EnterAmount from './screens/EnterAmount'
 import FeeComparison from './screens/FeeComparison'
@@ -56,7 +55,8 @@ export default function App() {
           <Route path="/confirmation" element={<Confirmation />} />
 
           {/* App (requires a session) */}
-          <Route path="/home" element={<RequireAuth><Home /></RequireAuth>} />
+          {/* Home is the Wallet screen — the app's landing/dashboard. */}
+          <Route path="/home" element={<RequireAuth><Wallet /></RequireAuth>} />
           <Route path="/send" element={<RequireAuth><SendMoney /></RequireAuth>} />
           <Route path="/amount" element={<RequireAuth><EnterAmount /></RequireAuth>} />
           <Route path="/compare" element={<RequireAuth><FeeComparison /></RequireAuth>} />

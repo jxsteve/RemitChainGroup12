@@ -34,14 +34,6 @@ export interface Wallet {
 
 const HEX = '0123456789abcdef'
 
-/** A short word list, enough to render a believable 12-word recovery phrase. */
-const WORDLIST = [
-  'anchor', 'beacon', 'cobalt', 'dawn', 'ember', 'falcon', 'glade', 'harbor',
-  'ivory', 'jasmine', 'kernel', 'lagoon', 'meadow', 'nimbus', 'orbit', 'pioneer',
-  'quartz', 'ripple', 'summit', 'timber', 'umber', 'velvet', 'willow', 'zephyr',
-  'amber', 'breeze', 'cedar', 'delta', 'echo', 'forest', 'granite', 'hollow',
-]
-
 /** Pick `count` deterministic-but-varied hex characters. */
 function hex(count: number): string {
   let out = ''
@@ -52,11 +44,6 @@ function hex(count: number): string {
 /** Generate a mock 0x address, e.g. "0x9f3c...". */
 export function generateAddress(): string {
   return `0x${hex(40)}`
-}
-
-/** Generate a mock 12-word BIP39-style recovery phrase. */
-export function generateMnemonic(words = 12): string[] {
-  return Array.from({ length: words }, () => WORDLIST[Math.floor(Math.random() * WORDLIST.length)])
 }
 
 /** Provision a fresh wallet for a newly created account. */
