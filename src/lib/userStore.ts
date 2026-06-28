@@ -25,7 +25,6 @@ export interface UserData {
     network?: string
     asset?: string
     balance?: number
-    backedUp?: boolean
   }
   /** On-chain wallet activity feed. */
   activity?: unknown[]

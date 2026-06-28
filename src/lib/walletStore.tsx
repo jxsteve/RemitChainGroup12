@@ -4,8 +4,8 @@ import { WALLET_ASSET } from './wallet'
 /**
  * Wallet "ledger" for the prototype.
  *
- * Holds the USDC stablecoin balance, the on-chain activity feed (deposits,
- * withdrawals, sends, receives) and the backup state of the recovery phrase.
+ * Holds the USDC stablecoin balance and the on-chain activity feed (deposits,
+ * withdrawals, sends, receives).
  * All mock + localStorage; this is the seam where on-chain reads/writes land.
  */
 
@@ -30,9 +30,6 @@ interface WalletState {
   balance: number
   asset: string
   activity: WalletTx[]
-  /** Whether the user has saved their recovery phrase. */
-  backedUp: boolean
-  confirmBackup: () => void
   /** Top up the wallet (fiat on-ramp → USDC). */
   deposit: (amount: number, source: string) => void
   /** Cash out to a local bank / mobile-money account. */
@@ -41,7 +38,6 @@ interface WalletState {
 
 const BALANCE_KEY = 'remitchain.wallet.balance'
 const ACTIVITY_KEY = 'remitchain.wallet.activity'
-const BACKUP_KEY = 'remitchain.wallet.backedUp'
 
 const DEFAULT_BALANCE = 540
 
@@ -106,7 +102,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [activity, setActivity] = useState<WalletTx[]>(
     () => read<WalletTx[]>(ACTIVITY_KEY) ?? SEED_ACTIVITY,
   )
-  const [backedUp, setBackedUp] = useState<boolean>(() => read<boolean>(BACKUP_KEY) ?? false)
 
   const record = (tx: WalletTx, nextBalance: number) => {
     const nextActivity = [tx, ...activity]
@@ -134,14 +129,9 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     )
   }
 
-  const confirmBackup = () => {
-    setBackedUp(true)
-    write(BACKUP_KEY, true)
-  }
-
   return (
     <WalletContext.Provider
-      value={{ balance, asset: WALLET_ASSET, activity, backedUp, confirmBackup, deposit, withdraw }}
+      value={{ balance, asset: WALLET_ASSET, activity, deposit, withdraw }}
     >
       {children}
     </WalletContext.Provider>
