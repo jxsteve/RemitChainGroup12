@@ -27,7 +27,7 @@ export default function CreateAccount() {
       email: email.trim(),
       phone: phone.trim(),
     })
-    navigate('/verify-email')
+    navigate('/create-pin')
   }
 
   return (

@@ -1,8 +1,10 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronRight, User, Shield, CircleHelp, LogOut, type LucideIcon } from 'lucide-react'
+import { ChevronRight, User, Wallet, KeyRound, Shield, CircleHelp, LogOut, type LucideIcon } from 'lucide-react'
+import { usePrivy } from '@privy-io/react-auth'
 import BottomNav from '../components/BottomNav'
 import { Avatar } from '../components/Avatar'
 import { useAuth } from '../lib/auth'
+import { privyProfile } from '../lib/privy'
 import styles from './Profile.module.css'
 
 interface Item {
@@ -13,6 +15,8 @@ interface Item {
 
 const ITEMS: Item[] = [
   { label: 'Account details', icon: User, to: '/home' },
+  { label: 'My wallet', icon: Wallet, to: '/wallet' },
+  { label: 'Recovery phrase', icon: KeyRound, to: '/wallet/backup' },
   { label: 'Security & PIN', icon: Shield, to: '/create-pin' },
   { label: 'Help & support', icon: CircleHelp, to: '/home' },
 ]
@@ -21,12 +25,18 @@ const ITEMS: Item[] = [
 export default function Profile() {
   const navigate = useNavigate()
   const { user, logout } = useAuth()
+  const { user: privyUser, authenticated, logout: privyLogout } = usePrivy()
 
-  const fullName = user ? `${user.firstName} ${user.lastName}`.trim() : 'Mira Igboanusi'
-  const email = user?.email ?? 'miracleigboanusi@gmail.com'
+  // Prefer the real Privy identity, fall back to the mock onboarding session.
+  const p = privyProfile(privyUser)
+  const fullName =
+    (authenticated && p.name) ||
+    (user ? `${user.firstName} ${user.lastName}`.trim() : 'Mira Igboanusi')
+  const email = (authenticated && (p.email ?? p.phone)) || user?.email || 'miracleigboanusi@gmail.com'
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     logout()
+    if (authenticated) await privyLogout()
     navigate('/login', { replace: true })
   }
 

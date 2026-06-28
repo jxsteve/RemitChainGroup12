@@ -24,10 +24,11 @@ export default function CreatePin() {
     navigate('/confirmation', {
       replace: true,
       state: {
-        title: 'Passcode Created',
-        message: 'Your 6-digit PIN has been set successfully. Keep it safe — you will use it to log in and authorise transfers.',
-        ctaLabel: 'Continue',
-        to: '/home',
+        title: 'Account & wallet ready',
+        message:
+          'Your 6-digit PIN is set and a secure web3 wallet has been created for you automatically. Next, back up your recovery phrase so your funds are always safe.',
+        ctaLabel: 'Secure my wallet',
+        to: '/wallet/backup',
       },
     })
   }

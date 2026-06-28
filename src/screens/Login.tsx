@@ -1,38 +1,28 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ArrowLeft, Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react'
+import { usePrivy } from '@privy-io/react-auth'
 import { Logo } from '../components/Logo'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
-import { useAuth } from '../lib/auth'
 import shared from './shared.module.css'
 import styles from './Login.module.css'
 
 export default function Login() {
   const navigate = useNavigate()
-  const { user, login } = useAuth()
+  // Real authentication is handled by Privy (email code / SMS / wallet).
+  const { ready, authenticated, login } = usePrivy()
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [showPw, setShowPw] = useState(false)
-  const [error, setError] = useState('')
 
-  // Already signed in? Skip straight to the app.
+  // Once Privy reports an authenticated session, enter the app.
   useEffect(() => {
-    if (user) navigate('/home', { replace: true })
-  }, [user, navigate])
+    if (ready && authenticated) navigate('/home', { replace: true })
+  }, [ready, authenticated, navigate])
 
-  // TEMPORARY (no backend yet): any non-empty email/phone + password is accepted.
-  const canSubmit = identifier.trim().length > 0 && password.length > 0
-
-  const handleLogin = () => {
-    setError('')
-    try {
-      login(identifier, password)
-      navigate('/home', { replace: true })
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Unable to log in.')
-    }
-  }
+  const handleLogin = () => login()
+  const canSubmit = ready
 
   return (
     <div className={shared.screen}>
@@ -67,10 +57,7 @@ export default function Login() {
               placeholder="Input your email address/phone number"
               autoComplete="username"
               value={identifier}
-              onChange={(e) => {
-                setIdentifier(e.target.value)
-                setError('')
-              }}
+              onChange={(e) => setIdentifier(e.target.value)}
             />
 
             <Input
@@ -79,7 +66,6 @@ export default function Login() {
               placeholder="Enter your password"
               autoComplete="current-password"
               value={password}
-              error={Boolean(error)}
               leading={<LockKeyhole size={18} />}
               trailing={
                 <button
@@ -91,21 +77,12 @@ export default function Login() {
                   {showPw ? <Eye size={18} /> : <EyeOff size={18} />}
                 </button>
               }
-              onChange={(e) => {
-                setPassword(e.target.value)
-                setError('')
-              }}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
-            <button
-              type="button"
-              className={styles.forgot}
-              onClick={() => navigate('/verify-email')}
-            >
+            <button type="button" className={styles.forgot} onClick={handleLogin}>
               Forgot password
             </button>
-
-            {error && <p className={styles.error}>{error}</p>}
 
             <Button type="submit" fullWidth className={styles.submit} disabled={!canSubmit}>
               Login

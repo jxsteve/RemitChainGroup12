@@ -1,13 +1,12 @@
 import type { ReactElement } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { usePrivy } from '@privy-io/react-auth'
 import PhoneFrame from './components/PhoneFrame'
 import Onboarding1 from './screens/Onboarding1'
 import Onboarding2 from './screens/Onboarding2'
 import Welcome from './screens/Welcome'
 import Login from './screens/Login'
 import CreateAccount from './screens/CreateAccount'
-import VerifyEmail from './screens/VerifyEmail'
-import VerifyOtp from './screens/VerifyOtp'
 import CreatePin from './screens/CreatePin'
 import Confirmation from './screens/Confirmation'
 import Home from './screens/Home'
@@ -19,12 +18,21 @@ import TransferSuccess from './screens/TransferSuccess'
 import TrackTransfer from './screens/TrackTransfer'
 import Activity from './screens/Activity'
 import Profile from './screens/Profile'
+import Wallet from './screens/Wallet'
+import ReceiveFunds from './screens/ReceiveFunds'
+import Withdraw from './screens/Withdraw'
+import BackupWallet from './screens/BackupWallet'
 import { useAuth } from './lib/auth'
 
-/** Guards in-app screens — redirects to /login when there is no session. */
+/**
+ * Guards in-app screens. A session is either a real Privy login or the
+ * mock onboarding session — redirects to /login when neither is present.
+ */
 function RequireAuth({ children }: { children: ReactElement }) {
+  const { ready, authenticated } = usePrivy()
   const { user } = useAuth()
-  return user ? children : <Navigate to="/login" replace />
+  if (!ready) return null
+  return authenticated || user ? children : <Navigate to="/login" replace />
 }
 
 /**
@@ -44,8 +52,6 @@ export default function App() {
           <Route path="/welcome" element={<Welcome />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<CreateAccount />} />
-          <Route path="/verify-email" element={<VerifyEmail />} />
-          <Route path="/verify-otp" element={<VerifyOtp />} />
           <Route path="/create-pin" element={<CreatePin />} />
           <Route path="/confirmation" element={<Confirmation />} />
 
@@ -59,6 +65,12 @@ export default function App() {
           <Route path="/track" element={<RequireAuth><TrackTransfer /></RequireAuth>} />
           <Route path="/activity" element={<RequireAuth><Activity /></RequireAuth>} />
           <Route path="/profile" element={<RequireAuth><Profile /></RequireAuth>} />
+
+          {/* Web3 wallet */}
+          <Route path="/wallet" element={<RequireAuth><Wallet /></RequireAuth>} />
+          <Route path="/wallet/receive" element={<RequireAuth><ReceiveFunds /></RequireAuth>} />
+          <Route path="/wallet/withdraw" element={<RequireAuth><Withdraw /></RequireAuth>} />
+          <Route path="/wallet/backup" element={<RequireAuth><BackupWallet /></RequireAuth>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

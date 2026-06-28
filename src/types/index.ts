@@ -60,4 +60,4 @@ export type ButtonVariant = 'primary' | 'outline' | 'dark'
 export type ChipVariant = 'default' | 'selected' | 'dark'
 
 /** Bottom navigation destinations. */
-export type NavKey = 'home' | 'send' | 'activity' | 'profile'
+export type NavKey = 'home' | 'send' | 'wallet' | 'activity' | 'profile'

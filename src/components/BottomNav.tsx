@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Clock, Home, Navigation, User, type LucideIcon } from 'lucide-react'
+import { Clock, Home, Navigation, Wallet, User, type LucideIcon } from 'lucide-react'
 import { cn } from '../lib/cn'
 import styles from './BottomNav.module.css'
 
@@ -15,6 +15,13 @@ const ITEMS: NavItem[] = [
   { label: 'Home', icon: Home, to: '/home', matches: ['/home'] },
   // Send stays active while choosing recipient + amount, per the design.
   { label: 'Send', icon: Navigation, to: '/send', matches: ['/send', '/amount'] },
+  // Wallet stays active across the deposit / withdraw / backup sub-screens.
+  {
+    label: 'Wallet',
+    icon: Wallet,
+    to: '/wallet',
+    matches: ['/wallet', '/wallet/receive', '/wallet/withdraw', '/wallet/backup'],
+  },
   // Activity opens the transaction history, and is active on review / track.
   { label: 'Activity', icon: Clock, to: '/activity', matches: ['/activity', '/review', '/track'] },
   { label: 'Profile', icon: User, to: '/profile', matches: ['/profile'] },
