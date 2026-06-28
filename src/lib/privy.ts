@@ -25,7 +25,16 @@ export const PRIVY_AUDIENCE = PRIVY_APP_ID
 /** Public JWKS (ES256 / P-256 keys) used to verify Privy-issued JWTs. */
 export const PRIVY_JWKS_URL = `https://auth.privy.io/api/v1/apps/${PRIVY_APP_ID}/jwks.json`
 
-/** Real Privy auth + an embedded wallet auto-created for new accounts. */
+/**
+ * Real Privy auth + an embedded wallet auto-created for new accounts.
+ *
+ * NOTE: Privy embedded wallets require a *secure context* — i.e. HTTPS or
+ * http://localhost. Production (Netlify) is HTTPS and local dev on
+ * http://localhost both qualify. Accessing the dev server over a bare LAN IP
+ * (e.g. http://192.168.x.x for phone testing) is NOT a secure context and Privy
+ * will throw "Embedded wallet is only available over HTTPS" — use localhost or
+ * an HTTPS tunnel (e.g. `ngrok`) for device testing.
+ */
 export const privyConfig: PrivyClientConfig = {
   appearance: {
     theme: 'light',
