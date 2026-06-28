@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ChevronDown } from 'lucide-react'
+import { ChevronDown, TrendingDown } from 'lucide-react'
 import ScreenHeader, { CancelButton } from '../components/ScreenHeader'
 import BottomNav from '../components/BottomNav'
 import { Button } from '../components/Button'
@@ -69,6 +69,24 @@ export default function EnterAmount() {
             <span style={{ fontSize: 24 }}>{r.country.flag}</span>
           </div>
         </div>
+
+        <button
+          type="button"
+          onClick={() => navigate('/compare')}
+          style={{
+            marginTop: 18,
+            display: 'flex',
+            alignItems: 'center',
+            gap: 6,
+            fontSize: 14,
+            fontWeight: 700,
+            color: 'var(--color-accent)',
+            background: 'none',
+          }}
+        >
+          <TrendingDown size={16} />
+          Compare fees &amp; see your savings
+        </button>
       </div>
 
       <div className={styles.footer}>

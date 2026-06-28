@@ -12,6 +12,7 @@ import Confirmation from './screens/Confirmation'
 import Home from './screens/Home'
 import SendMoney from './screens/SendMoney'
 import EnterAmount from './screens/EnterAmount'
+import FeeComparison from './screens/FeeComparison'
 import ReviewTransfer from './screens/ReviewTransfer'
 import Processing from './screens/Processing'
 import TransferSuccess from './screens/TransferSuccess'
@@ -59,6 +60,7 @@ export default function App() {
           <Route path="/home" element={<RequireAuth><Home /></RequireAuth>} />
           <Route path="/send" element={<RequireAuth><SendMoney /></RequireAuth>} />
           <Route path="/amount" element={<RequireAuth><EnterAmount /></RequireAuth>} />
+          <Route path="/compare" element={<RequireAuth><FeeComparison /></RequireAuth>} />
           <Route path="/review" element={<RequireAuth><ReviewTransfer /></RequireAuth>} />
           <Route path="/processing" element={<RequireAuth><Processing /></RequireAuth>} />
           <Route path="/success" element={<RequireAuth><TransferSuccess /></RequireAuth>} />
