@@ -13,11 +13,11 @@ export default function Welcome() {
   return (
     <div className={shared.screen}>
       <div className={shared.scroll}>
-        <div className={styles.hero}>
-          <div className={styles.logo}>
-            <Logo size={24} />
-          </div>
+        <header className={styles.header}>
+          <Logo size={24} />
+        </header>
 
+        <div className={styles.hero}>
           {imgOk ? (
             <img
               className={styles.heroImg}
@@ -32,7 +32,7 @@ export default function Welcome() {
           )}
         </div>
 
-        <div className={shared.body} style={{ marginTop: 28 }}>
+        <div className={styles.content}>
           <h1 className={styles.title}>
             Secure. Fast.
             <br />
@@ -43,13 +43,13 @@ export default function Welcome() {
       </div>
 
       <div className={shared.bottom}>
-        <Button fullWidth onClick={() => navigate('/signup')}>
-          Create Account
+        <Button fullWidth onClick={() => navigate('/login')}>
+          Log in
         </Button>
-        <p className={shared.footnote}>
-          Already have an account?
-          <button className={styles.linkBtn} onClick={() => navigate('/login')}>
-            Log in
+        <p className={styles.footnote}>
+          Don't have an account?{' '}
+          <button type="button" className={styles.link} onClick={() => navigate('/signup')}>
+            Create account
           </button>
         </p>
       </div>
