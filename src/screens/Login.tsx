@@ -1,16 +1,17 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, ShieldCheck } from 'lucide-react'
+import { Eye, EyeOff, LockKeyhole, ShieldCheck } from 'lucide-react'
 import { usePrivy, useLogin } from '@privy-io/react-auth'
 import { Logo } from '../components/Logo'
 import { Button } from '../components/Button'
+import { Input } from '../components/Input'
 import shared from './shared.module.css'
 import styles from './Login.module.css'
 
 /**
  * Login entry point. Real auth is handled by Privy's hosted modal (email code /
- * SMS / wallet) — tapping Continue opens it. New users are routed to set their
- * app PIN; returning users go straight home. With embedded wallets enabled, the
- * `onComplete` callback fires only after the wallet has been provisioned.
+ * SMS / wallet) — tapping Login opens it, prefilled with the email/phone the
+ * user typed. New users are routed to set their app PIN; returning users go home.
  */
 export default function Login() {
   const navigate = useNavigate()
@@ -20,38 +21,77 @@ export default function Login() {
       navigate(isNewUser ? '/create-pin' : '/home', { replace: true }),
   })
 
+  const [identifier, setIdentifier] = useState('')
+  const [password, setPassword] = useState('')
+  const [showPw, setShowPw] = useState(false)
+
+  const handleLogin = () => {
+    const id = identifier.trim()
+    if (/\S+@\S+\.\S+/.test(id)) {
+      login({ prefill: { type: 'email', value: id } })
+    } else if (id.replace(/\D/g, '').length >= 7) {
+      login({ prefill: { type: 'phone', value: id } })
+    } else {
+      login()
+    }
+  }
+
   return (
     <div className={shared.screen}>
       <div className={shared.scroll}>
         <div className={styles.topbar}>
-          <button
-            type="button"
-            className={styles.back}
-            aria-label="Go back"
-            onClick={() => navigate(-1)}
-          >
-            <ArrowLeft size={24} strokeWidth={2.25} />
-          </button>
-          <Logo size={22} />
+          <Logo size={24} />
         </div>
 
         <h1 className={styles.welcome}>Welcome Back!</h1>
 
         <div className={shared.body}>
           <h2 className={styles.heading}>Login</h2>
-          <p className={styles.subtitle}>
-            Continue with your email, phone number or wallet — we'll send a one-time code to verify
-            it's you.
-          </p>
+          <p className={styles.subtitle}>Let's get you started</p>
 
-          <Button
-            fullWidth
-            className={styles.submit}
-            disabled={!ready}
-            onClick={() => login()}
+          <form
+            className={styles.form}
+            onSubmit={(e) => {
+              e.preventDefault()
+              if (ready) handleLogin()
+            }}
           >
-            Continue
-          </Button>
+            <Input
+              label="Email address/ Phone Number"
+              placeholder="Input your email address/phone number"
+              autoComplete="username"
+              value={identifier}
+              onChange={(e) => setIdentifier(e.target.value)}
+            />
+
+            <Input
+              label="Password"
+              type={showPw ? 'text' : 'password'}
+              placeholder="Enter your password"
+              autoComplete="current-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              leading={<LockKeyhole size={18} />}
+              trailing={
+                <button
+                  type="button"
+                  className={styles.eye}
+                  aria-label={showPw ? 'Hide password' : 'Show password'}
+                  onClick={() => setShowPw((v) => !v)}
+                >
+                  {showPw ? <Eye size={18} /> : <EyeOff size={18} />}
+                </button>
+              }
+            />
+
+            <button type="button" className={styles.forgot} onClick={() => navigate('/login')}>
+              Forgot password
+            </button>
+
+            <Button type="submit" fullWidth className={styles.submit} disabled={!ready}>
+              Login
+            </Button>
+          </form>
 
           <p className={styles.secure}>
             <ShieldCheck size={16} color="var(--color-accent)" />
@@ -61,10 +101,10 @@ export default function Login() {
       </div>
 
       <div className={shared.bottom}>
-        <p className={shared.footnote}>
-          Dont Have an Account?
-          <button className={shared.linkBtn} onClick={() => navigate('/signup')}>
-            Sign Up
+        <p className={styles.footnote}>
+          Don't have an account?{' '}
+          <button type="button" className={styles.createLink} onClick={() => navigate('/signup')}>
+            Create account
           </button>
         </p>
       </div>

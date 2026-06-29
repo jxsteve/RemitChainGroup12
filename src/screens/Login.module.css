@@ -1,15 +1,8 @@
 .topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 24px 0;
-}
-.back {
-  display: flex;
-  color: var(--color-text-muted);
+  padding: 16px 24px 0;
 }
 .welcome {
-  margin: 28px auto 0;
+  margin: 24px auto 0;
   width: fit-content;
   font-size: 22px;
   font-weight: 800;
@@ -19,7 +12,7 @@
   text-decoration-thickness: 2px;
 }
 .heading {
-  margin-top: 36px;
+  margin-top: 28px;
   font-size: 28px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -32,30 +25,25 @@
   color: var(--color-text-muted);
 }
 .form {
-  margin-top: 26px;
+  margin-top: 24px;
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 20px;
 }
 .eye {
   display: flex;
   color: var(--color-text-muted);
 }
 .forgot {
-  margin-top: -8px;
+  margin-top: -10px;
   align-self: flex-start;
   font-size: 13px;
   font-weight: 700;
-  color: var(--color-accent);
+  color: var(--color-navy);
   background: none;
 }
-.error {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-danger);
-}
 .submit {
-  margin-top: 12px;
+  margin-top: 16px;
 }
 .secure {
   margin-top: 18px;
@@ -67,4 +55,17 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--color-text-muted);
+}
+.footnote {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+.createLink {
+  background: none;
+  color: var(--color-navy);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
