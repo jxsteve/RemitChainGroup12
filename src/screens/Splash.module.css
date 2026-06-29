@@ -1,0 +1,73 @@
+.screen {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  overflow: hidden;
+}
+
+/* Upper area with the three diagonal bands */
+.art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.band {
+  position: absolute;
+  left: -30%;
+  width: 160%;
+  transform: rotate(-30deg);
+  transform-origin: center;
+}
+.grayTop {
+  top: 11%;
+  height: 74px;
+  background: #d9d9d9;
+}
+.blue {
+  top: 27%;
+  height: 96px;
+  background: #1a7bff;
+}
+.grayBottom {
+  top: 44%;
+  height: 74px;
+  background: #d9d9d9;
+}
+
+/* Wordmark + tagline anchored bottom-left */
+.bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 96px;
+  padding: 0 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  animation: rc-fade-up 0.5s ease both;
+}
+
+.wordmark {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  user-select: none;
+}
+.remit {
+  color: #0b1a4a;
+}
+.chain {
+  color: #1a7bff;
+}
+
+.tagline {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: #6b7280;
+}
