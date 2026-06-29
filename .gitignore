@@ -45,3 +45,10 @@ vite.config.d.ts
 
 # Claude Code local config
 .claude/
+
+# Hardhat / contracts
+contracts/node_modules
+contracts/.env
+contracts/artifacts
+contracts/cache
+contracts/typechain-types
