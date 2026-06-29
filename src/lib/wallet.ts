@@ -16,10 +16,10 @@
 export const WALLET_ASSET = 'USDC'
 
 /**
- * Human-facing network label. Kept abstract on purpose — the chain is not yet
- * finalised — but address formatting is EVM-style, the most familiar default.
+ * Human-facing network label. The RemitChain contract + USDC live on Celo
+ * (EVM-compatible, so 0x address formatting still applies).
  */
-export const WALLET_NETWORK = 'Polygon'
+export const WALLET_NETWORK = 'Celo'
 
 export interface Wallet {
   /** 0x-prefixed account address (mock). */
