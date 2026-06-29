@@ -34,6 +34,8 @@ interface WalletState {
   deposit: (amount: number, source: string) => void
   /** Cash out to a local bank / mobile-money account. */
   withdraw: (amount: number, destination: string) => void
+  /** Debit a cross-border transfer (USDC) and log it as on-chain activity. */
+  send: (amount: number, recipient: string) => void
 }
 
 const BALANCE_KEY = 'remitchain.wallet.balance'
@@ -129,9 +131,18 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     )
   }
 
+  const send = (amount: number, recipient: string) => {
+    if (amount <= 0) return
+    const next = Math.round((balance - amount) * 100) / 100
+    record(
+      { id: genHash(), type: 'send', label: `To ${recipient}`, amount: -amount, ...stamp(), status: 'completed', hash: genHash() },
+      next,
+    )
+  }
+
   return (
     <WalletContext.Provider
-      value={{ balance, asset: WALLET_ASSET, activity, deposit, withdraw }}
+      value={{ balance, asset: WALLET_ASSET, activity, deposit, withdraw, send }}
     >
       {children}
     </WalletContext.Provider>

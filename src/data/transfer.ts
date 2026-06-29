@@ -13,6 +13,19 @@ export const RATE = 0.0095
 /** Flat transfer fee in NGN. */
 export const FEE = 1_500
 
+/**
+ * Stablecoin reference rate — NGN per 1 USDC. The wallet settles in USDC (the
+ * on-chain rail), but amounts are shown to the user in local fiat so blockchain
+ * stays hidden (PRD §5, §7). Fiat conversion is mocked for the MVP.
+ */
+export const USDC_NGN = 1_600
+
+/** Convert a USDC balance to its NGN display value. */
+export const usdcToNgn = (usdc: number) => usdc * USDC_NGN
+
+/** Convert an NGN amount to USDC, rounded to 2dp. Used for on-chain settlement. */
+export const ngnToUsdc = (ngn: number) => Math.round((ngn / USDC_NGN) * 100) / 100
+
 export const COUNTRIES: Country[] = [
   { code: 'NG', name: 'Nigeria', flag: '🇳🇬', currency: 'NGN' },
   { code: 'GH', name: 'Ghana', flag: '🇬🇭', currency: 'GHS' },
@@ -36,6 +49,7 @@ export const CONTACTS: Recipient[] = [
     country: GHANA,
     currency: GHS,
     group: 'recent',
+    address: '0x1111111111111111111111111111111111111111',
   },
   {
     id: 'r2',
@@ -46,6 +60,7 @@ export const CONTACTS: Recipient[] = [
     country: GHANA,
     currency: GHS,
     group: 'recent',
+    address: '0x2222222222222222222222222222222222222222',
   },
   {
     id: 'r3',
@@ -56,6 +71,7 @@ export const CONTACTS: Recipient[] = [
     country: GHANA,
     currency: GHS,
     group: 'recent',
+    address: '0x3333333333333333333333333333333333333333',
   },
 ]
 

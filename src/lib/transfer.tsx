@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, type ReactNode } from 'react'
 import type { Recipient, Transaction } from '../types'
-import { BALANCE, CONTACTS, FEE, RATE, SEED_HISTORY, fmt2, fmtNaira } from '../data/transfer'
+import { CONTACTS, FEE, RATE, SEED_HISTORY, fmt2, fmtNaira, ngnToUsdc, usdcToNgn } from '../data/transfer'
+import { useWallet } from './walletStore'
 
 /**
  * Transfer "backend" for the prototype.
@@ -30,8 +31,10 @@ interface TransferState {
   current: Transaction | null
   /** Build a processing transaction from the draft and record it. */
   commitTransfer: () => Transaction
-  /** Mark the current transaction completed. */
-  completeTransfer: () => void
+  /** Mark the current transaction completed (optionally with an on-chain hash). */
+  completeTransfer: (hash?: string) => void
+  /** Mark the current transaction failed (e.g. an on-chain revert). */
+  failTransfer: () => void
 }
 
 const HISTORY_KEY = 'remitchain.history'
@@ -61,6 +64,9 @@ function genReference(): string {
 const TransferContext = createContext<TransferState | null>(null)
 
 export function TransferProvider({ children }: { children: ReactNode }) {
+  // The USDC wallet is the single source of truth for spendable funds; the
+  // NGN figure shown across the send flow is its local-fiat equivalent.
+  const { balance: walletBalance, send: sendFromWallet } = useWallet()
   const [recipient, setRecipient] = useState<Recipient | null>(null)
   const [sendAmount, setSendAmount] = useState<number>(100_000)
   const [history, setHistory] = useState<Transaction[]>(
@@ -68,6 +74,7 @@ export function TransferProvider({ children }: { children: ReactNode }) {
   )
   const [current, setCurrent] = useState<Transaction | null>(() => read<Transaction>(CURRENT_KEY))
 
+  const balance = Math.round(usdcToNgn(walletBalance))
   const receiveAmount = Math.round(sendAmount * RATE * 100) / 100
   const total = sendAmount + FEE
 
@@ -99,6 +106,10 @@ export function TransferProvider({ children }: { children: ReactNode }) {
       recipient: recipient ?? CONTACTS[1],
     }
 
+    // Debit the USDC wallet and log the send as on-chain activity, so the
+    // wallet balance + activity stay consistent with the transfer history.
+    sendFromWallet(ngnToUsdc(total), recipient?.name ?? 'Recipient')
+
     const next = [txn, ...history]
     setHistory(next)
     setCurrent(txn)
@@ -107,15 +118,20 @@ export function TransferProvider({ children }: { children: ReactNode }) {
     return txn
   }
 
-  const completeTransfer = () => {
+  const updateCurrent = (patch: Partial<Transaction>) => {
     if (!current) return
-    const done: Transaction = { ...current, status: 'completed' }
-    const next = history.map((t) => (t.id === done.id ? done : t))
+    const updated: Transaction = { ...current, ...patch }
+    const next = history.map((t) => (t.id === updated.id ? updated : t))
     setHistory(next)
-    setCurrent(done)
+    setCurrent(updated)
     write(HISTORY_KEY, next)
-    write(CURRENT_KEY, done)
+    write(CURRENT_KEY, updated)
   }
+
+  const completeTransfer = (hash?: string) =>
+    updateCurrent({ status: 'completed', ...(hash ? { hash } : {}) })
+
+  const failTransfer = () => updateCurrent({ status: 'failed' })
 
   return (
     <TransferContext.Provider
@@ -125,7 +141,7 @@ export function TransferProvider({ children }: { children: ReactNode }) {
         sendAmount,
         setSendAmount,
         resetDraft,
-        balance: BALANCE,
+        balance,
         fee: FEE,
         rate: RATE,
         receiveAmount,
@@ -134,6 +150,7 @@ export function TransferProvider({ children }: { children: ReactNode }) {
         current,
         commitTransfer,
         completeTransfer,
+        failTransfer,
       }}
     >
       {children}

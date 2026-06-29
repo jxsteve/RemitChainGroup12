@@ -23,6 +23,8 @@ export interface Transaction {
   rateDisplay: string
   status: TransactionStatus
   recipient: Recipient
+  /** On-chain sendMoney tx hash, when settled via the smart contract. */
+  hash?: string
 }
 
 export interface Country {
@@ -53,6 +55,8 @@ export interface Recipient {
   currency: Currency
   /** Which list the contact belongs to in the picker. */
   group: 'recent' | 'saved' | 'all'
+  /** Recipient's on-chain (EVM) address for USDC settlement, if known. */
+  address?: string
 }
 
 /** Visual variants shared across UI primitives. */
