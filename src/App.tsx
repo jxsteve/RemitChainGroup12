@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactElement } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { usePrivy } from '@privy-io/react-auth'
 import { useIdleLogout } from './lib/useIdleLogout'
+import { useResetSessionOnLoad } from './lib/useResetSessionOnLoad'
 import PhoneFrame from './components/PhoneFrame'
 import Splash from './screens/Splash'
 import Onboarding1 from './screens/Onboarding1'
@@ -47,6 +48,10 @@ function SessionGuard() {
  * In-app screens require a (mock) session; bottom-nav: Home, Activity, Profile.
  */
 export default function App() {
+  // Every full page load / refresh starts from the splash with no session, so
+  // the user must re-authenticate (fresh OTP) to get back into the app.
+  useResetSessionOnLoad()
+
   // Brand splash on app start, ~2.5s, then the app.
   const [showSplash, setShowSplash] = useState(true)
   useEffect(() => {
