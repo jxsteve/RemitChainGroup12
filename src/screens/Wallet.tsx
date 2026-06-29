@@ -3,6 +3,7 @@ import { Send, ArrowDownLeft, ArrowUpRight } from 'lucide-react'
 import BottomNav from '../components/BottomNav'
 import { BalanceCard } from '../components/BalanceCard'
 import { useWallet, type WalletTx } from '../lib/walletStore'
+import { useWalletIdentity } from '../lib/useWalletIdentity'
 import { fmtUsdc } from '../lib/wallet'
 import { fmtNaira, usdcToNgn } from '../data/transfer'
 import styles from './Wallet.module.css'
@@ -17,6 +18,7 @@ const TYPE_LABEL: Record<WalletTx['type'], string> = {
 export default function Wallet() {
   const navigate = useNavigate()
   const { balance, activity } = useWallet()
+  const { address } = useWalletIdentity()
 
   return (
     <div className={styles.screen}>
@@ -27,6 +29,7 @@ export default function Wallet() {
         <BalanceCard
           className={styles.balanceCard}
           balance={`N${fmtNaira(usdcToNgn(balance))}.00`}
+          address={address ?? undefined}
           onSend={() => navigate('/send')}
         />
 
@@ -46,8 +49,8 @@ export default function Wallet() {
           </p>
         </div>
 
-        {/* On-chain activity */}
-        <h2 className={styles.sectionTitle}>On-chain activity</h2>
+        {/* Recent on-chain activity */}
+        <h2 className={styles.sectionTitle}>Recent on-chain activity</h2>
         <div className={styles.list}>
           {activity.length === 0 && <p className={styles.empty}>No activity yet.</p>}
           {activity.map((tx) => {
