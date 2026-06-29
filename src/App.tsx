@@ -1,7 +1,9 @@
-import type { ReactElement } from 'react'
+import { useEffect, useState, type ReactElement } from 'react'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { usePrivy } from '@privy-io/react-auth'
+import { useIdleLogout } from './lib/useIdleLogout'
 import PhoneFrame from './components/PhoneFrame'
+import Splash from './screens/Splash'
 import Onboarding1 from './screens/Onboarding1'
 import Onboarding2 from './screens/Onboarding2'
 import Welcome from './screens/Welcome'
@@ -32,6 +34,12 @@ function RequireAuth({ children }: { children: ReactElement }) {
   return authenticated || user ? children : <Navigate to="/login" replace />
 }
 
+/** Signs the user out after inactivity so a fresh OTP is required on return. */
+function SessionGuard() {
+  useIdleLogout()
+  return null
+}
+
 /**
  * RemitChain prototype — full flow:
  * Onboarding → Welcome → Login / Create Account → Verify Email → Verify OTP →
@@ -39,8 +47,24 @@ function RequireAuth({ children }: { children: ReactElement }) {
  * In-app screens require a (mock) session; bottom-nav: Home, Activity, Profile.
  */
 export default function App() {
+  // Brand splash on app start, ~2.5s, then the app.
+  const [showSplash, setShowSplash] = useState(true)
+  useEffect(() => {
+    const t = setTimeout(() => setShowSplash(false), 2500)
+    return () => clearTimeout(t)
+  }, [])
+
+  if (showSplash) {
+    return (
+      <PhoneFrame>
+        <Splash />
+      </PhoneFrame>
+    )
+  }
+
   return (
     <HashRouter>
+      <SessionGuard />
       <PhoneFrame>
         <Routes>
           {/* Onboarding & auth (public) */}
