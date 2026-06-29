@@ -11,27 +11,26 @@ export default function Onboarding2() {
   return (
     <div className={shared.screen}>
       <div className={shared.scroll}>
-        <div className={shared.topbar}>
+        <div style={{ padding: '28px 24px 0', display: 'flex', justifyContent: 'center' }}>
           <Logo size={26} />
         </div>
 
-        <div className={shared.body} style={{ marginTop: 36 }}>
-          <h1 className={shared.h1}>
+        <div className={shared.body} style={{ marginTop: 24 }}>
+          <h1 className={shared.h1} style={{ textAlign: 'center' }}>
             Borderless transfers,
             <br />
             Limitless possibilities.
           </h1>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 56, marginTop: 36 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, marginTop: 28 }}>
             <FeatureCard
               icon={<Zap size={22} fill="currentColor" />}
               title="Fast Transfer"
               description="Send money in minutes with lightening-fast processing."
             />
-             <FeatureCard
+            <FeatureCard
               icon={<Lock size={22} />}
-              title=" Bank-Grade Security"
-
+              title="Bank-Grade Security"
               description="Your money and data are protected with advanced encryption."
             />
             <FeatureCard
@@ -44,10 +43,9 @@ export default function Onboarding2() {
       </div>
 
       <div className={shared.bottom}>
-        <div className={shared.dots}>
-          <span className={shared.dot} />
-          <span className={`${shared.dot} ${shared.dotActive}`} />
-          <span className={shared.dot} />
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 8, marginBottom: 20 }}>
+          <span style={{ width: 8, height: 8, borderRadius: 999, background: 'var(--color-border-strong)' }} />
+          <span style={{ width: 8, height: 8, borderRadius: 999, background: 'var(--color-accent)' }} />
         </div>
         <Button fullWidth onClick={() => navigate('/welcome')}>
           Next
