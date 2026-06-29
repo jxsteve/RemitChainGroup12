@@ -9,12 +9,12 @@ import { useAuth } from './auth'
  * Privy keeps users signed in indefinitely once a session exists, so a returning
  * user is logged straight in without a fresh OTP. For a money app we want the
  * session to expire: after `VITE_SESSION_TIMEOUT_MIN` minutes of no interaction
- * (default 15) we sign the user out — so next time they must re-authenticate and
+ * (default 4) we sign the user out — so next time they must re-authenticate and
  * Privy sends a new one-time code. Any activity resets the timer.
  *
  * (Tapping "Log out" in Profile still ends the session immediately.)
  */
-const TIMEOUT_MIN = Number(import.meta.env.VITE_SESSION_TIMEOUT_MIN) || 15
+const TIMEOUT_MIN = Number(import.meta.env.VITE_SESSION_TIMEOUT_MIN) || 4
 const TIMEOUT_MS = Math.max(1, TIMEOUT_MIN) * 60_000
 const ACTIVITY_EVENTS = ['mousedown', 'keydown', 'touchstart', 'pointerdown', 'scroll'] as const
 
