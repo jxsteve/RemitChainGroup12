@@ -19,8 +19,6 @@ import TrackTransfer from './screens/TrackTransfer'
 import Activity from './screens/Activity'
 import Profile from './screens/Profile'
 import Wallet from './screens/Wallet'
-import ReceiveFunds from './screens/ReceiveFunds'
-import Withdraw from './screens/Withdraw'
 import { useAuth } from './lib/auth'
 
 /**
@@ -69,8 +67,6 @@ export default function App() {
 
           {/* Web3 wallet */}
           <Route path="/wallet" element={<RequireAuth><Wallet /></RequireAuth>} />
-          <Route path="/wallet/receive" element={<RequireAuth><ReceiveFunds /></RequireAuth>} />
-          <Route path="/wallet/withdraw" element={<RequireAuth><Withdraw /></RequireAuth>} />
 
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

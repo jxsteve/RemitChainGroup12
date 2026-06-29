@@ -17,6 +17,11 @@
   color: var(--color-text);
 }
 
+/* Primary balance card spacing (card visuals come from BalanceCard) */
+.balanceCard {
+  margin-top: 20px;
+}
+
 /* Balance card */
 .card {
   position: relative;

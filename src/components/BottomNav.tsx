@@ -12,8 +12,8 @@ interface NavItem {
 }
 
 const ITEMS: NavItem[] = [
-  // Home is the wallet — landing screen with balance, deposit / withdraw / send.
-  { label: 'Home', icon: Home, to: '/home', matches: ['/home', '/wallet', '/wallet/receive', '/wallet/withdraw'] },
+  // Home is the wallet — landing screen with balance + send.
+  { label: 'Home', icon: Home, to: '/home', matches: ['/home', '/wallet'] },
   // Send stays active while choosing recipient + amount, per the design.
   { label: 'Send', icon: Navigation, to: '/send', matches: ['/send', '/amount'] },
   // Activity opens the transaction history, and is active on review / track.

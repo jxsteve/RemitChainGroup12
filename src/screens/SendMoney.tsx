@@ -6,7 +6,8 @@ import BottomNav from '../components/BottomNav'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { useTransfer } from '../lib/transfer'
-import { COUNTRIES, CONTACTS, GHS } from '../data/transfer'
+import { COUNTRIES } from '../data/transfer'
+import { DIRECTORY, resolveIdentifier } from '../data/directory'
 import type { Country, Recipient } from '../types'
 import shared from './shared.module.css'
 import styles from './SendMoney.module.css'
@@ -26,40 +27,55 @@ export default function SendMoney() {
   const [query, setQuery] = useState('')
   const [tab, setTab] = useState<Tab>('recent')
 
-  const contacts = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    return CONTACTS.filter((c) => {
-      if (tab === 'saved' && c.group !== 'saved') return false
-      if (!q) return true
-      return c.name.toLowerCase().includes(q) || c.phone.includes(q) || c.wallet.toLowerCase().includes(q)
-    })
-  }, [query, tab])
-
   const choose = (c: Recipient) => {
     setRecipient(c)
     navigate('/amount')
   }
 
-  // Once a country is chosen, a valid email or phone number is enough to proceed
-  // even without picking an existing contact.
+  // Classify what the user typed: wallet address, phone number or email.
   const typed = query.trim()
   const isEmail = /^\S+@\S+\.\S+$/.test(typed)
+  const isWallet = /^0x[a-fA-F0-9]{40}$/.test(typed)
   const isPhone = /^\+?[\d\s-]{7,}$/.test(typed) && typed.replace(/\D/g, '').length >= 7
-  const typedRecipientValid = Boolean(country) && (isEmail || isPhone)
-  const canContinue = Boolean(recipient) || typedRecipientValid
+  const typedKind: 'email' | 'phone' | 'wallet' | null = isEmail
+    ? 'email'
+    : isWallet
+      ? 'wallet'
+      : isPhone
+        ? 'phone'
+        : null
+
+  // Directory matches for the query (by name, email, phone digits or address).
+  const matches = useMemo(() => {
+    const q = query.trim().toLowerCase()
+    const qDigits = q.replace(/\D/g, '')
+    return DIRECTORY.filter((c) => {
+      if (!q) return tab === 'all' ? true : c.group === tab
+      return (
+        c.name.toLowerCase().includes(q) ||
+        (c.email?.toLowerCase().includes(q) ?? false) ||
+        (c.address?.toLowerCase().includes(q) ?? false) ||
+        (qDigits.length >= 3 && c.phone.replace(/\D/g, '').includes(qDigits))
+      )
+    })
+  }, [query, tab])
+
+  // When a valid identifier is entered but nobody matches, generate a recipient
+  // from the roster so the user always lands on a real person to send to.
+  const generated = useMemo(
+    () => (typedKind && matches.length === 0 ? resolveIdentifier(typed, typedKind) : null),
+    [typedKind, typed, matches.length],
+  )
+
+  const results = matches
+
+  // Continue needs BOTH fields filled: a selected country and a recipient —
+  // either an existing contact already chosen or a valid new identifier typed.
+  const canContinue = Boolean(country) && Boolean(typed) && Boolean(recipient || generated)
 
   const handleContinue = () => {
-    if (!recipient && typedRecipientValid && country) {
-      choose({
-        id: `new-${typed}`,
-        name: typed,
-        initial: typed.charAt(0).toUpperCase(),
-        phone: isPhone ? typed : '',
-        wallet: isEmail ? typed : `${country.currency} Wallet. ${typed}`,
-        country,
-        currency: GHS,
-        group: 'all',
-      })
+    if (!recipient && generated) {
+      choose(generated)
       return
     }
     navigate('/amount')
@@ -112,7 +128,7 @@ export default function SendMoney() {
 
         <div className={styles.search}>
           <Input
-            placeholder="search by name, phone or wallet ID"
+            placeholder="Enter wallet address, phone number or email"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             leading={<Search size={18} />}
@@ -133,10 +149,10 @@ export default function SendMoney() {
         </div>
 
         <div className={styles.contacts}>
-          {contacts.length === 0 ? (
+          {results.length === 0 && !generated ? (
             <p className={styles.empty}>No contacts here yet.</p>
           ) : (
-            contacts.map((c) => (
+            results.map((c) => (
               <button
                 key={c.id}
                 type="button"
@@ -144,16 +160,19 @@ export default function SendMoney() {
                 onClick={() => choose(c)}
               >
                 <span className={styles.contactName}>{c.name}</span>
-                <span className={styles.contactPhone}>{c.phone}</span>
+                <span className={styles.contactPhone}>{c.email ?? c.phone}</span>
               </button>
             ))
           )}
         </div>
 
-        <button type="button" className={styles.addRecipient} onClick={() => choose(CONTACTS[1])}>
-          <Plus size={18} className={styles.addIcon} />
-          Add New Recipient
-        </button>
+        {/* Only shown once a new wallet/phone/email (not an existing contact) is entered. */}
+        {generated && (
+          <button type="button" className={styles.addRecipient} onClick={() => choose(generated)}>
+            <Plus size={18} className={styles.addIcon} />
+            Add New Recipient
+          </button>
+        )}
 
         <p className={styles.disclaimer}>
           <ShieldCheck size={14} color="var(--color-accent)" />

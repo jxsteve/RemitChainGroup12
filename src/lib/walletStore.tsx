@@ -4,8 +4,8 @@ import { WALLET_ASSET } from './wallet'
 /**
  * Wallet "ledger" for the prototype.
  *
- * Holds the USDC stablecoin balance and the on-chain activity feed (deposits,
- * withdrawals, sends, receives).
+ * Holds the USDC stablecoin balance and the on-chain activity feed (sends —
+ * the MVP scope).
  * All mock + localStorage; this is the seam where on-chain reads/writes land.
  */
 
@@ -30,10 +30,6 @@ interface WalletState {
   balance: number
   asset: string
   activity: WalletTx[]
-  /** Top up the wallet (fiat on-ramp → USDC). */
-  deposit: (amount: number, source: string) => void
-  /** Cash out to a local bank / mobile-money account. */
-  withdraw: (amount: number, destination: string) => void
   /** Debit a cross-border transfer (USDC) and log it as on-chain activity. */
   send: (amount: number, recipient: string) => void
 }
@@ -113,24 +109,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     write(BALANCE_KEY, nextBalance)
   }
 
-  const deposit = (amount: number, source: string) => {
-    if (amount <= 0) return
-    const next = Math.round((balance + amount) * 100) / 100
-    record(
-      { id: genHash(), type: 'deposit', label: source, amount, ...stamp(), status: 'completed', hash: genHash() },
-      next,
-    )
-  }
-
-  const withdraw = (amount: number, destination: string) => {
-    if (amount <= 0 || amount > balance) return
-    const next = Math.round((balance - amount) * 100) / 100
-    record(
-      { id: genHash(), type: 'withdraw', label: destination, amount: -amount, ...stamp(), status: 'processing', hash: genHash() },
-      next,
-    )
-  }
-
   const send = (amount: number, recipient: string) => {
     if (amount <= 0) return
     const next = Math.round((balance - amount) * 100) / 100
@@ -142,7 +120,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   return (
     <WalletContext.Provider
-      value={{ balance, asset: WALLET_ASSET, activity, deposit, withdraw, send }}
+      value={{ balance, asset: WALLET_ASSET, activity, send }}
     >
       {children}
     </WalletContext.Provider>

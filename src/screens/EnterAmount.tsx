@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ChevronDown, TrendingDown } from 'lucide-react'
 import ScreenHeader, { CancelButton } from '../components/ScreenHeader'
@@ -5,16 +6,53 @@ import BottomNav from '../components/BottomNav'
 import { Button } from '../components/Button'
 import { Avatar } from '../components/Avatar'
 import { useTransfer } from '../lib/transfer'
-import { CONTACTS, fmt2, fmtNaira } from '../data/transfer'
+import { useWallet } from '../lib/walletStore'
+import { CONTACTS, fmt2, fmtNaira, ngnToUsdc, usdcToNgn } from '../data/transfer'
 import shared from './shared.module.css'
 import styles from './EnterAmount.module.css'
+
+type InputCurrency = 'NGN' | 'USDC'
+const CURRENCIES: { code: InputCurrency; flag: string }[] = [
+  { code: 'NGN', flag: '🇳🇬' },
+  { code: 'USDC', flag: '💵' },
+]
 
 export default function EnterAmount() {
   const navigate = useNavigate()
   const { recipient, sendAmount, setSendAmount, receiveAmount, balance } = useTransfer()
+  const { balance: walletUsdc } = useWallet()
   const r = recipient ?? CONTACTS[1]
 
-  const formatted = sendAmount ? sendAmount.toLocaleString('en-US') : ''
+  const [currency, setCurrency] = useState<InputCurrency>('NGN')
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  // The store keeps the canonical amount in NGN; the input simply shows/edits it
+  // in the currently selected currency.
+  const toDisplay = (ngn: number, cur: InputCurrency) => (cur === 'NGN' ? ngn : ngnToUsdc(ngn))
+  const toCanonical = (disp: number, cur: InputCurrency) =>
+    cur === 'NGN' ? Math.round(disp) : Math.round(usdcToNgn(disp))
+
+  const [text, setText] = useState(() => fmt2(toDisplay(sendAmount, 'NGN')))
+
+  const onAmountChange = (raw: string) => {
+    // digits + a single decimal point
+    const cleaned = raw.replace(/[^\d.]/g, '').replace(/(\.\d*)\./g, '$1')
+    setText(cleaned)
+    setSendAmount(toCanonical(Number(cleaned) || 0, currency))
+  }
+
+  const pickCurrency = (cur: InputCurrency) => {
+    setCurrency(cur)
+    setMenuOpen(false)
+    setText(fmt2(toDisplay(sendAmount, cur)))
+  }
+
+  const onMax = () => {
+    setSendAmount(balance)
+    setText(fmt2(toDisplay(balance, currency)))
+  }
+
+  const active = CURRENCIES.find((c) => c.code === currency)!
 
   return (
     <div className={shared.screen}>
@@ -41,22 +79,50 @@ export default function EnterAmount() {
         <div className={styles.sendCard}>
           <p className={styles.sendLabel}>You send</p>
           <div className={styles.sendRow}>
-            <button type="button" className={styles.currencyBtn}>
-              <span style={{ fontSize: 20 }}>🇳🇬</span>
-              NGN
-              <ChevronDown size={16} />
-            </button>
+            <div className={styles.currencyWrap}>
+              <button
+                type="button"
+                className={styles.currencyBtn}
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <span style={{ fontSize: 20 }}>{active.flag}</span>
+                {active.code}
+                <ChevronDown size={16} />
+              </button>
+              {menuOpen && (
+                <div className={styles.currencyMenu}>
+                  {CURRENCIES.map((c) => (
+                    <button
+                      key={c.code}
+                      type="button"
+                      className={`${styles.currencyOption} ${
+                        c.code === currency ? styles.currencyOptionActive : ''
+                      }`}
+                      onClick={() => pickCurrency(c.code)}
+                    >
+                      <span style={{ fontSize: 18 }}>{c.flag}</span>
+                      {c.code}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
             <input
               className={styles.amountInput}
-              inputMode="numeric"
-              value={formatted}
-              onChange={(e) => setSendAmount(Number(e.target.value.replace(/[^\d]/g, '')) || 0)}
+              inputMode="decimal"
+              value={text}
+              onChange={(e) => onAmountChange(e.target.value)}
+              onBlur={() => setText(fmt2(toDisplay(sendAmount, currency)))}
               aria-label="Amount to send"
             />
           </div>
           <div className={styles.sendFooter}>
-            <span className={styles.balance}>Available balance: ₦{fmtNaira(balance)}</span>
-            <button type="button" className={styles.max} onClick={() => setSendAmount(balance)}>
+            <span className={styles.balance}>
+              {currency === 'NGN'
+                ? `Available balance: ₦${fmtNaira(balance)}`
+                : `Available balance: ${fmt2(walletUsdc)} USDC`}
+            </span>
+            <button type="button" className={styles.max} onClick={onMax}>
               MAX
             </button>
           </div>

@@ -57,6 +57,8 @@ export interface Recipient {
   group: 'recent' | 'saved' | 'all'
   /** Recipient's on-chain (EVM) address for USDC settlement, if known. */
   address?: string
+  /** Recipient's email, used for lookup in the send-money directory. */
+  email?: string
 }
 
 /** Visual variants shared across UI primitives. */

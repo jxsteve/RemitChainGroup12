@@ -1,20 +1,10 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import {
-  ArrowDownToLine,
-  ArrowUpFromLine,
-  Send,
-  Copy,
-  Check,
-  Eye,
-  EyeOff,
-  ArrowDownLeft,
-  ArrowUpRight,
-} from 'lucide-react'
+import { Send, ArrowDownLeft, ArrowUpRight } from 'lucide-react'
 import BottomNav from '../components/BottomNav'
+import { BalanceCard } from '../components/BalanceCard'
 import { useWallet, type WalletTx } from '../lib/walletStore'
-import { useWalletIdentity } from '../lib/useWalletIdentity'
-import { fmtUsdc, shortAddress } from '../lib/wallet'
+import { fmtUsdc } from '../lib/wallet'
+import { fmtNaira, usdcToNgn } from '../data/transfer'
 import styles from './Wallet.module.css'
 
 const TYPE_LABEL: Record<WalletTx['type'], string> = {
@@ -26,65 +16,22 @@ const TYPE_LABEL: Record<WalletTx['type'], string> = {
 
 export default function Wallet() {
   const navigate = useNavigate()
-  const { balance, asset, activity } = useWallet()
-  const { address, network } = useWalletIdentity()
-  const [hidden, setHidden] = useState(false)
-  const [copied, setCopied] = useState(false)
-
-  const copyAddress = async () => {
-    if (!address) return
-    try {
-      await navigator.clipboard.writeText(address)
-      setCopied(true)
-      setTimeout(() => setCopied(false), 1500)
-    } catch {
-      /* clipboard blocked — no-op in the prototype */
-    }
-  }
+  const { balance, activity } = useWallet()
 
   return (
     <div className={styles.screen}>
       <div className={styles.scroll}>
         <h1 className={styles.title}>Wallet</h1>
 
-        {/* Stablecoin balance card */}
-        <div className={styles.card}>
-          <div className={styles.glow} />
-          <div className={styles.inner}>
-            <div className={styles.cardTop}>
-              <span className={styles.network}>{network} · {asset}</span>
-              <button
-                type="button"
-                className={styles.eye}
-                onClick={() => setHidden((v) => !v)}
-                aria-label={hidden ? 'Show balance' : 'Hide balance'}
-              >
-                {hidden ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
+        {/* Primary balance card */}
+        <BalanceCard
+          className={styles.balanceCard}
+          balance={`N${fmtNaira(usdcToNgn(balance))}.00`}
+          onSend={() => navigate('/send')}
+        />
 
-            <p className={styles.balanceLabel}>Wallet Balance</p>
-            <p className={styles.balance}>
-              {hidden ? '••••••' : `${fmtUsdc(balance)}`} <span className={styles.asset}>{asset}</span>
-            </p>
-
-            <button type="button" className={styles.address} onClick={copyAddress}>
-              <span>{address ? shortAddress(address) : '—'}</span>
-              {copied ? <Check size={15} /> : <Copy size={15} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Primary actions */}
+        {/* Primary action */}
         <div className={styles.actions}>
-          <button className={styles.action} onClick={() => navigate('/wallet/receive')}>
-            <span className={styles.actionIcon}><ArrowDownToLine size={20} /></span>
-            Deposit
-          </button>
-          <button className={styles.action} onClick={() => navigate('/wallet/withdraw')}>
-            <span className={styles.actionIcon}><ArrowUpFromLine size={20} /></span>
-            Withdraw
-          </button>
           <button className={styles.action} onClick={() => navigate('/send')}>
             <span className={styles.actionIcon}><Send size={18} style={{ transform: 'rotate(-12deg)' }} /></span>
             Send
@@ -95,9 +42,7 @@ export default function Wallet() {
         <div className={styles.explainer}>
           <p className={styles.explainerTitle}>How RemitChain works</p>
           <p className={styles.explainerBody}>
-            Your money is held as {asset}, a stablecoin pegged 1:1 to the US dollar. When you
-            send, it moves instantly on-chain and your recipient cashes out in their local
-            currency — no banks, no borders.
+            Send money across Africa in seconds — secure, low-cost transfers with no banks in between.
           </p>
         </div>
 

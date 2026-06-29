@@ -68,7 +68,7 @@ export function TransferProvider({ children }: { children: ReactNode }) {
   // NGN figure shown across the send flow is its local-fiat equivalent.
   const { balance: walletBalance, send: sendFromWallet } = useWallet()
   const [recipient, setRecipient] = useState<Recipient | null>(null)
-  const [sendAmount, setSendAmount] = useState<number>(100_000)
+  const [sendAmount, setSendAmount] = useState<number>(0)
   const [history, setHistory] = useState<Transaction[]>(
     () => read<Transaction[]>(HISTORY_KEY) ?? SEED_HISTORY,
   )
@@ -80,7 +80,7 @@ export function TransferProvider({ children }: { children: ReactNode }) {
 
   const resetDraft = () => {
     setRecipient(null)
-    setSendAmount(100_000)
+    setSendAmount(0)
   }
 
   const commitTransfer = (): Transaction => {
